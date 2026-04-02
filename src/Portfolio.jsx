@@ -1,31 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 
-/* ═══════════════════════════════════════════
-   TRANSLATIONS — FR / EN / AR
-   ═══════════════════════════════════════════ */
+/* ═══════ TRANSLATIONS ═══════ */
 const T = {
   fr: {
     dir: "ltr",
     nav: ["À propos", "Parcours", "Projets", "Compétences", "Contact"],
     heroSub: "Développeuse Full Stack · Safran Aircraft Engines",
-    heroTitle1: "L'art du",
-    heroTitle2: "code",
-    heroTitle3: "rencontre",
-    heroTitle4: "l'aéronautique",
+    heroTitle: ["L'art du", "code", "rencontre", "l'aéronautique"],
     heroDesc: "Développeuse Full Stack chez Safran Aircraft Engines, je conçois des solutions digitales à l'intersection de la technologie et de l'industrie aéronautique.",
-    btnDiscover: "Découvrir",
-    btnContact: "Contact",
-    scroll: "Défiler",
-    aboutNum: "01",
-    aboutTitle: "À propos",
-    aboutSub: "Profil · Formation · Langues",
+    btnDiscover: "Découvrir", btnContact: "Contact",
+    aboutNum: "01", aboutTitle: "À propos", aboutSub: "Profil · Formation · Langues",
     aboutP1: "De Paris au Caire, en passant par Québec — un parcours international forgé par la curiosité technique et la passion de l'industrie.",
-    aboutP2: "Titulaire d'un Bachelor Responsable Projet Web et Mobile de l'ETNA, d'une formation en Design d'Interaction à l'Université Laval, je prépare actuellement un Master en Intelligence Artificielle et Big Data à l'École 89. Mon parcours mêle développement logiciel, architecture de données et transformation digitale dans le secteur aéronautique.",
+    aboutP2: "Titulaire d'un Bachelor Responsable Projet Web et Mobile de l'ETNA, d'une formation en Design d'Interaction à l'Université Laval, je prépare actuellement un Master en Intelligence Artificielle et Big Data à l'École 89.",
     eduLabel: "Formation",
     edu: [
       { year: "2025", school: "École 89", diploma: "Master IA & Big Data", note: "en cours" },
-      { year: "2022", school: "Université Laval, Québec", diploma: "Formation Master Design d'Interaction", note: "" },
-      { year: "2021", school: "ETNA, Paris", diploma: "Bachelor Responsable Projet Web et Mobile", note: "" },
+      { year: "2022", school: "Université Laval, Québec", diploma: "Formation Master Design d'Interaction" },
+      { year: "2021", school: "ETNA, Paris", diploma: "Bachelor Responsable Projet Web et Mobile" },
     ],
     langLabel: "Langues",
     langs: [
@@ -33,394 +24,341 @@ const T = {
       { lang: "Arabe (Dialecte Égyptien)", level: "Maternelle", pct: 100 },
       { lang: "Anglais", level: "Courant", pct: 90 },
     ],
-    statsYears: "Années", statsProjects: "Projets", statsLangs: "Langues", statsTeam: "Équipiers",
-    expNum: "02",
-    expTitle: "Parcours",
-    expSub: "Expérience professionnelle",
+    stats: [{ n: "5+", l: "Années" }, { n: "13", l: "Projets" }, { n: "3", l: "Langues" }, { n: "8", l: "Équipiers" }],
+    expNum: "02", expTitle: "Parcours", expSub: "Expérience professionnelle",
     experiences: [
-      {
-        year: "Présent", company: "Safran Aircraft Engines", role: "Analyste Support Planification", sub: "Supply Chain & Data", location: "Paris, France",
-        bullets: [
-          "Suivi de l'avancement des projets de transformation digitale et data en cours au sein des départements supply chain et production.",
-          "Test et validation des solutions data développées par l'équipe DATA interne afin de garantir leur fiabilité et leur conformité aux standards Safran.",
-          "Réalisation des tests de recette (UAT) et assistance au déploiement de nouveaux outils et tableaux de bord.",
-          "Formation des utilisateurs finaux sur les solutions digitales déployées et support fonctionnel continu.",
-          "Rédaction de documentation technique détaillée et de guides utilisateurs en anglais pour les équipes internationales.",
-          "Support supplémentaire lors des pics de charge, assurant la collaboration interéquipes et la continuité des projets.",
-        ],
-      },
-      {
-        year: "2024–2025", company: "Shepherd of Egypt", role: "Développeuse Web", sub: "Infrastructure & WordPress", location: "Le Caire, Égypte",
-        bullets: [
-          "Diagnostic et résolution de problèmes critiques WordPress, incluant les conflits de plugins, les défaillances d'envoi d'e-mails et les erreurs de base de données.",
-          "Configuration et maintenance des paramètres serveur, des services SMTP et des enregistrements DNS (SPF, DKIM, DMARC).",
-          "Dépannage expert des environnements d'hébergement, incluant les configurations PHP, la mise en place SSL et les erreurs backend.",
-        ],
-      },
-      {
-        year: "2021–2022", company: "Tradespotting", role: "Développeuse Front End", sub: "Architecture & APIs", location: "Paris, France",
-        bullets: [
-          "Collaboration avec le directeur informatique pour examiner et améliorer les sites web et applications mobiles existants.",
-          "Conception de l'architecture des données, incluant les sources, la stratégie de chargement, la sécurité et la visualisation.",
-          "Création d'APIs avec spécifications et endpoints définis, permettant une communication fluide entre différentes applications.",
-        ],
-      },
-      {
-        year: "2020–2021", company: "ETNA", role: "Développeuse Full Stack", sub: "Plateformes universitaires", location: "Paris, France",
-        bullets: [
-          "Identification et correction de problèmes de plateforme à l'aide de Docker et PHP.",
-          "Résolution de problèmes techniques au sein des plateformes universitaires, assurant un fonctionnement fluide et efficace.",
-        ],
-      },
-      {
-        year: "2019–2020", company: "SHIFT89", role: "Développeuse Web & Lead", sub: "Management d'équipe", location: "Paris, France",
-        bullets: [
-          "Responsable de l'évaluation et de l'amélioration des sites web et applications mobiles, animation de réunions quotidiennes pour accompagner deux membres de l'équipe.",
-          "Supervision du recrutement et du mentorat des stagiaires.",
-          "Présentation de solutions aux clients et orchestration des améliorations de projets en fonction de leurs retours.",
-        ],
-      },
+      { year: "Présent", company: "Safran Aircraft Engines", role: "Analyste Support Planification", sub: "Supply Chain & Data", location: "Paris, France", bullets: ["Suivi de l'avancement des projets de transformation digitale et data au sein des départements supply chain et production.", "Test et validation des solutions data développées par l'équipe DATA interne.", "Réalisation des tests de recette (UAT) et assistance au déploiement de nouveaux outils et tableaux de bord.", "Formation des utilisateurs finaux sur les solutions digitales déployées et support fonctionnel continu.", "Rédaction de documentation technique détaillée et de guides utilisateurs en anglais.", "Support supplémentaire lors des pics de charge, collaboration interéquipes et continuité des projets."] },
+      { year: "2024–2025", company: "Shepherd of Egypt", role: "Développeuse Web", sub: "Infrastructure & WordPress", location: "Le Caire, Égypte", bullets: ["Diagnostic et résolution de problèmes critiques WordPress (conflits plugins, e-mails, BDD).", "Configuration serveur, services SMTP et enregistrements DNS (SPF, DKIM, DMARC).", "Dépannage expert : configurations PHP, mise en place SSL et erreurs backend."] },
+      { year: "2021–2022", company: "Tradespotting", role: "Développeuse Front End", sub: "Architecture & APIs", location: "Paris, France", bullets: ["Collaboration avec le directeur IT pour améliorer sites web et applications mobiles.", "Conception de l'architecture des données : sources, chargement, sécurité, visualisation.", "Création d'APIs avec spécifications et endpoints définis."] },
+      { year: "2020–2021", company: "ETNA", role: "Développeuse Full Stack", sub: "Plateformes universitaires", location: "Paris, France", bullets: ["Identification et correction de problèmes de plateforme avec Docker et PHP.", "Résolution de problèmes techniques au sein des plateformes universitaires."] },
+      { year: "2019–2020", company: "SHIFT89", role: "Développeuse Web & Lead", sub: "Management d'équipe", location: "Paris, France", bullets: ["Évaluation et amélioration de sites web et apps mobiles, animation de réunions quotidiennes.", "Supervision du recrutement et du mentorat des stagiaires.", "Présentation de solutions aux clients et orchestration des améliorations."] },
     ],
-    projNum: "03",
-    projTitle: "Projets",
-    projSub: "Réalisations techniques sélectionnées",
+    projNum: "03", projTitle: "Projets", projSub: "Réalisations techniques",
     projects: [
-      { name: "E-Commerce Laravel", cat: "FULL STACK", desc: "Développement d'un site E-Commerce complet en HTML, CSS et JavaScript avec le framework Laravel.", tech: "Laravel · HTML/CSS · JavaScript" },
-      { name: "TicketChainer", cat: "HACKATHON · CHEF DE PROJET", desc: "Direction d'une équipe de 8 personnes. Intégration et support du FrontEnd avec support et intégration d'APIs, adaptation du template avec Docker et Symfony.", tech: "Docker · Symfony · APIs" },
-      { name: "Application Météo", cat: "iOS NATIVE", desc: "Création de ma propre application météo en Swift.", tech: "Swift · Xcode · API REST" },
-      { name: "Clone Twitter", cat: "BACKEND", desc: "Création de mon propre réseau social en NodeJs.", tech: "Node.js · Backend" },
-      { name: "Serveur Web Debian", cat: "DEVOPS", desc: "Mise en place d'un serveur web avec Debian - Shell avec VirtualBox et VMware.", tech: "Debian · Shell · VM" },
-      { name: "Jeu RPG", cat: "GAME DEV", desc: "Création d'une interface graphique RPG en Java.", tech: "Java · Swing · OOP" },
-      { name: "Microsoft Azure", cat: "CLOUD · IA", desc: "Service Cognitif, Reconnaissance Faciale avec l'API Face. Top 5 Camp Microsoft.", tech: "Azure · Cognitive Services" },
-      { name: "Application Android", cat: "MOBILE", desc: "Création d'une application avec Android Studio en Java.", tech: "Java · Android Studio" },
-      { name: "Structure CRUD en C", cat: "ALGORITHMIE", desc: "Création d'une structure de données modèle CRUD en C.", tech: "C · Structures de données" },
-      { name: "Projet Fullstack Java", cat: "FULL STACK", desc: "Développement d'application backend et frontend en Java avec AndroidStudio.", tech: "Java · Android Studio" },
-      { name: "C-BASH-Web", cat: "FORMATION", desc: "Formation intensive de 6 semaines en C, Bash, Web.", tech: "C · Bash · Web" },
-      { name: "MySQL", cat: "BASE DE DONNÉES", desc: "Création de bases de données avec MySQL.", tech: "MySQL · SQL" },
+      { name: "E-Commerce Laravel", cat: "FULL STACK", desc: "Site E-Commerce complet en HTML, CSS, JS avec Laravel.", tech: "Laravel · JS · CSS" },
+      { name: "TicketChainer", cat: "HACKATHON", desc: "Chef de projet, équipe de 8. FrontEnd, APIs, Docker, Symfony.", tech: "Docker · Symfony · APIs" },
+      { name: "Application Météo", cat: "iOS", desc: "App météo native en Swift avec géolocalisation.", tech: "Swift · Xcode" },
+      { name: "Clone Twitter", cat: "BACKEND", desc: "Réseau social complet en NodeJs.", tech: "Node.js · MongoDB" },
+      { name: "Serveur Debian", cat: "DEVOPS", desc: "Serveur web from scratch avec Debian, VirtualBox, VMware.", tech: "Debian · Shell · VM" },
+      { name: "Jeu RPG", cat: "GAME DEV", desc: "Interface graphique RPG complète en Java.", tech: "Java · Swing" },
+      { name: "Azure Cognitive", cat: "CLOUD · IA", desc: "Reconnaissance faciale avec Face API. Top 5 Microsoft Camp.", tech: "Azure · API" },
+      { name: "App Android", cat: "MOBILE", desc: "Application Android Studio en Java.", tech: "Java · Android" },
+      { name: "CRUD en C", cat: "ALGO", desc: "Structure de données modèle CRUD en C.", tech: "C" },
+      { name: "Fullstack Java", cat: "FULL STACK", desc: "App backend + frontend Java AndroidStudio.", tech: "Java · Android" },
+      { name: "C-BASH-Web", cat: "FORMATION", desc: "Intensive 6 semaines en C, Bash, Web.", tech: "C · Bash · Web" },
+      { name: "Bases MySQL", cat: "DATABASE", desc: "Création de bases de données avec MySQL.", tech: "MySQL" },
     ],
-    skillsNum: "04",
-    skillsTitle: "Compétences",
-    skillsSub: "Stack technique",
-    skillCats: {
-      "Langages": ["HTML/CSS/JS", "Node.js", "TypeScript", "Swift", "React Native", "Bootstrap", "Tailwind"],
-      "Technologies Web": ["Angular", "Symfony", "PHP Framework"],
-      "Outils": ["Git", "GitHub/GitLab", "Xcode", "VS Code", "Postman", "Adobe XD", "Figma", "Photoshop", "Adobe Illustrator", "Microsoft Office", "Docker", "Android Studio", "Machine Virtuelle", "Bash", "Shell"],
-      "Services Cloud": ["Microsoft Azure SQL"],
-      "DevOps": ["Docker", "Git", "GitHub/GitLab", "VS Code", "Bash", "Shell"],
-      "Outils Data": ["Power BI", "SAP", "Excel (TCD, RECHERCHEV, Dashboards)"],
-    },
-    extraNum: "05",
-    extraTitle: "Activités",
-    extraSub: "Activités extrascolaires & récompenses",
-    extras: [
-      { title: "Cheffe de Projet — TicketChainer", year: "2019", desc: "Direction d'une équipe de 8 personnes, supervision de l'intégration et du support du Front End du site web. Gestion du support et intégration des APIs, adaptation des templates. Conseils tout au long des phases de conception, développement, maintenance et support de l'infrastructure de données." },
-      { title: "Top 5 Camp Microsoft", year: "2020", desc: "Participation au Camp Microsoft : Service Cognitif, acquisition de connaissances sur l'API Faces, composant essentiel de la suite de Services Cognitifs de Microsoft." },
+    showAll: "Voir tous les projets", showLess: "Voir moins",
+    skillsNum: "04", skillsTitle: "Compétences", skillsSub: "Stack technique",
+    skillCats: [
+      { cat: "Langages", items: ["HTML/CSS/JS", "Node.js", "TypeScript", "Swift", "React Native", "Bootstrap", "Tailwind"] },
+      { cat: "Technologies Web", items: ["Angular", "Symfony", "PHP Framework"] },
+      { cat: "Outils", items: ["Git", "GitHub/GitLab", "Xcode", "VS Code", "Postman", "Adobe XD", "Figma", "Photoshop", "Illustrator", "Microsoft Office", "Docker", "Android Studio", "Bash", "Shell"] },
+      { cat: "Services Cloud", items: ["Microsoft Azure SQL"] },
+      { cat: "DevOps", items: ["Docker", "Git", "GitHub/GitLab", "VS Code", "Bash", "Shell"] },
+      { cat: "Outils Data", items: ["Power BI", "SAP", "Excel (TCD, RECHERCHEV, Dashboards)"] },
     ],
-    courseworkTitle: "Cours Pertinents",
+    courseworkLabel: "Cours Pertinents",
     coursework: "Développement Frontend, Développement Backend, Management de l'Innovation et Entrepreneuriat, Ingénierie d'Infrastructure Cloud, Réalité Virtuelle, Réalité Augmentée et Ingénierie de Jeux Vidéo, Ingénierie de Développement d'Applications Mobiles.",
-    contactNum: "06",
-    contactTitle: "Collaborons",
-    contactTitle2: "ensemble",
-    contactDesc: "Que ce soit pour une mission de développement, un projet de transformation digitale ou une collaboration dans l'aéronautique — je suis à l'écoute.",
+    extraNum: "05", extraTitle: "Activités", extraSub: "Extrascolaire & récompenses",
+    extras: [
+      { title: "Cheffe de Projet — TicketChainer", year: "2019", desc: "Direction d'une équipe de 8 personnes, supervision de l'intégration FrontEnd, gestion APIs et adaptation templates. Conseils sur toutes les phases du projet." },
+      { title: "Top 5 Camp Microsoft", year: "2020", desc: "Participation au Camp Microsoft : Service Cognitif, acquisition de connaissances sur l'API Faces de la suite Cognitive Services." },
+    ],
+    contactNum: "06", contactTitle: "Collaborons", contactTitle2: "ensemble",
+    contactDesc: "Que ce soit pour du développement, de la transformation digitale ou l'aéronautique — je suis à l'écoute.",
     contactLabels: { email: "Email", linkedin: "LinkedIn", github: "GitHub", phone: "Téléphone" },
     footer: "Fait avec passion pour l'aviation",
+    chatGreeting: "👋 Bonjour ! Je suis l'assistant de Justine. Que souhaitez-vous savoir ?",
+    chatOptions: ["Parcours professionnel", "Compétences techniques", "Projets réalisés", "Me contacter"],
+    chatReplies: [
+      "Justine a 5+ ans d'expérience. Elle travaille actuellement chez **Safran Aircraft Engines** comme Analyste Support Planification (Supply Chain & Data). Avant cela : Shepherd of Egypt (Web Dev), Tradespotting (Front End), ETNA (Full Stack) et SHIFT89 (Web Dev & Lead).",
+      "**Langages** : HTML/CSS/JS, TypeScript, PHP, Swift, Java, C\n**Frameworks** : React, Laravel, Symfony, Angular, Node.js\n**Data & Cloud** : Power BI, SAP, Azure SQL, Docker\n**Design** : Figma, Adobe XD, Photoshop, Illustrator",
+      "13+ projets incluant : E-Commerce Laravel, TicketChainer (hackathon, chef de projet), App Météo iOS, Clone Twitter, Serveur Debian, Jeu RPG Java, Azure Cognitive Services (Top 5 Microsoft Camp).",
+      "📧 tadrosjustine21@gmail.com\n🔗 linkedin.com/in/justinetadros\n💻 github.com/JustineTdrs\n📞 +33 7 68 98 59 03",
+    ],
+    chatPlaceholder: "Choisissez une option ci-dessus...",
+    darkMode: "Mode sombre", lightMode: "Mode clair",
   },
-
   en: {
     dir: "ltr",
     nav: ["About", "Experience", "Projects", "Skills", "Contact"],
     heroSub: "Full Stack Developer · Safran Aircraft Engines",
-    heroTitle1: "Where",
-    heroTitle2: "code",
-    heroTitle3: "meets",
-    heroTitle4: "aerospace",
+    heroTitle: ["Where", "code", "meets", "aerospace"],
     heroDesc: "Full Stack Developer at Safran Aircraft Engines, I design digital solutions at the intersection of technology and the aerospace industry.",
-    btnDiscover: "Discover",
-    btnContact: "Contact",
-    scroll: "Scroll",
-    aboutNum: "01",
-    aboutTitle: "About",
-    aboutSub: "Profile · Education · Languages",
+    btnDiscover: "Discover", btnContact: "Contact",
+    aboutNum: "01", aboutTitle: "About", aboutSub: "Profile · Education · Languages",
     aboutP1: "From Paris to Cairo, through Quebec — an international journey shaped by technical curiosity and a passion for industry.",
-    aboutP2: "Holding a Bachelor's in Web and Mobile Project Management from ETNA and training in Interaction Design from Université Laval, I am currently pursuing a Master's in Artificial Intelligence and Big Data at École 89. My path combines software development, data architecture, and digital transformation in the aerospace sector.",
+    aboutP2: "Holding a Bachelor's in Web and Mobile Project Management from ETNA and training in Interaction Design from Université Laval, I am currently pursuing a Master's in AI and Big Data at École 89.",
     eduLabel: "Education",
     edu: [
       { year: "2025", school: "École 89", diploma: "Master's AI & Big Data", note: "in progress" },
-      { year: "2022", school: "Université Laval, Quebec", diploma: "Master's Interaction Design Training", note: "" },
-      { year: "2021", school: "ETNA, Paris", diploma: "Bachelor's Web & Mobile Project Management", note: "" },
+      { year: "2022", school: "Université Laval, Quebec", diploma: "Master's Interaction Design Training" },
+      { year: "2021", school: "ETNA, Paris", diploma: "Bachelor's Web & Mobile Project Management" },
     ],
     langLabel: "Languages",
     langs: [
       { lang: "French", level: "Native", pct: 100 },
-      { lang: "Arabic (Egyptian Dialect)", level: "Native", pct: 100 },
+      { lang: "Arabic (Egyptian)", level: "Native", pct: 100 },
       { lang: "English", level: "Fluent", pct: 90 },
     ],
-    statsYears: "Years", statsProjects: "Projects", statsLangs: "Languages", statsTeam: "Teammates",
-    expNum: "02",
-    expTitle: "Experience",
-    expSub: "Professional experience",
+    stats: [{ n: "5+", l: "Years" }, { n: "13", l: "Projects" }, { n: "3", l: "Languages" }, { n: "8", l: "Teammates" }],
+    expNum: "02", expTitle: "Experience", expSub: "Professional experience",
     experiences: [
-      {
-        year: "Present", company: "Safran Aircraft Engines", role: "Planning Support Analyst", sub: "Supply Chain & Data", location: "Paris, France",
-        bullets: [
-          "Monitoring the progress of ongoing digital transformation and data projects across supply chain and production departments.",
-          "Testing and validating data-driven solutions developed by the internal DATA team to ensure reliability and compliance with Safran standards.",
-          "Performing acceptance testing (UAT) and assisting in the deployment of new tools and dashboards.",
-          "Training end-users on implemented digital solutions and providing ongoing functional support.",
-          "Drafting detailed technical documentation and user guides in English for global teams.",
-          "Providing additional support during workload peaks, ensuring cross-team collaboration and project continuity.",
-        ],
-      },
-      {
-        year: "2024–2025", company: "Shepherd of Egypt", role: "Web Developer", sub: "Infrastructure & WordPress", location: "Cairo, Egypt",
-        bullets: [
-          "Diagnosed and resolved critical WordPress issues, including plugin conflicts, email delivery failures, and database errors.",
-          "Configured and maintained server settings, SMTP services, and DNS records (SPF, DKIM, DMARC).",
-          "Provided expert-level troubleshooting for hosting environments, including PHP configurations, SSL setup, and backend errors.",
-        ],
-      },
-      {
-        year: "2021–2022", company: "Tradespotting", role: "Front End Developer", sub: "Architecture & APIs", location: "Paris, France",
-        bullets: [
-          "Partnered with the IT director to review and enhance current websites and mobile apps.",
-          "Designed data architecture, including sources, load strategy, security, and visualization.",
-          "Created APIs with defined specifications and endpoints, enabling seamless communication between software applications.",
-        ],
-      },
-      {
-        year: "2020–2021", company: "ETNA", role: "Full Stack Developer", sub: "University platforms", location: "Paris, France",
-        bullets: [
-          "Identified and fixed platform issues using Docker and PHP.",
-          "Addressed technical issues within university platforms, ensuring smooth and effective functionality for users.",
-        ],
-      },
-      {
-        year: "2019–2020", company: "SHIFT89", role: "Web Developer & Lead", sub: "Team management", location: "Paris, France",
-        bullets: [
-          "In charge of evaluating and enhancing established websites and mobile apps, conducting daily meetings to allocate tasks and guide two team members.",
-          "Supervised the recruitment and mentorship of interns.",
-          "Presented solutions to clients and orchestrated project enhancements based on their feedback.",
-        ],
-      },
+      { year: "Present", company: "Safran Aircraft Engines", role: "Planning Support Analyst", sub: "Supply Chain & Data", location: "Paris, France", bullets: ["Monitoring digital transformation and data projects across supply chain and production.", "Testing and validating data solutions by the internal DATA team.", "Performing UAT and assisting deployment of new tools and dashboards.", "Training end-users on digital solutions and providing ongoing support.", "Drafting detailed technical documentation and user guides in English.", "Additional support during workload peaks, ensuring cross-team collaboration."] },
+      { year: "2024–2025", company: "Shepherd of Egypt", role: "Web Developer", sub: "Infrastructure & WordPress", location: "Cairo, Egypt", bullets: ["Diagnosed and resolved critical WordPress issues (plugins, emails, DB).", "Configured server settings, SMTP, and DNS records (SPF, DKIM, DMARC).", "Expert troubleshooting: PHP configs, SSL setup, and backend errors."] },
+      { year: "2021–2022", company: "Tradespotting", role: "Front End Developer", sub: "Architecture & APIs", location: "Paris, France", bullets: ["Partnered with IT director to enhance websites and mobile apps.", "Designed data architecture: sources, load strategy, security, visualization.", "Created APIs with defined specifications and endpoints."] },
+      { year: "2020–2021", company: "ETNA", role: "Full Stack Developer", sub: "University platforms", location: "Paris, France", bullets: ["Identified and fixed platform issues using Docker and PHP.", "Resolved technical issues within university platforms."] },
+      { year: "2019–2020", company: "SHIFT89", role: "Web Developer & Lead", sub: "Team management", location: "Paris, France", bullets: ["Evaluated and enhanced websites and mobile apps, ran daily standups.", "Supervised recruitment and mentorship of interns.", "Presented solutions to clients and orchestrated project enhancements."] },
     ],
-    projNum: "03",
-    projTitle: "Projects",
-    projSub: "Selected technical achievements",
+    projNum: "03", projTitle: "Projects", projSub: "Technical achievements",
     projects: [
-      { name: "E-Commerce Laravel", cat: "FULL STACK", desc: "Developed a complete E-Commerce website using HTML, CSS and JavaScript with the Laravel framework.", tech: "Laravel · HTML/CSS · JavaScript" },
-      { name: "TicketChainer", cat: "HACKATHON · PROJECT LEAD", desc: "Led a team of 8. Front End integration and support with API integration and template adaptation using Docker and Symfony.", tech: "Docker · Symfony · APIs" },
-      { name: "Weather App", cat: "iOS NATIVE", desc: "Built my own weather app using Swift.", tech: "Swift · Xcode · REST API" },
-      { name: "Twitter Clone", cat: "BACKEND", desc: "Built my own Twitter using NodeJs.", tech: "Node.js · Backend" },
-      { name: "Debian Web Server", cat: "DEVOPS", desc: "Setting up a web server with Debian - Shell with VirtualBox and VMware.", tech: "Debian · Shell · VM" },
-      { name: "RPG Game", cat: "GAME DEV", desc: "Creating a graphical RPG interface in Java.", tech: "Java · Swing · OOP" },
-      { name: "Microsoft Azure", cat: "CLOUD · AI", desc: "Cognitive Service, Facial Recognition with the Face API. Top 5 Microsoft Camp.", tech: "Azure · Cognitive Services" },
-      { name: "Android App", cat: "MOBILE", desc: "Built an application with Android Studio using Java.", tech: "Java · Android Studio" },
-      { name: "CRUD Structure in C", cat: "ALGORITHMS", desc: "Creating a CRUD model data structure in C.", tech: "C · Data Structures" },
-      { name: "Fullstack Java Project", cat: "FULL STACK", desc: "Backend and frontend application development in Java with AndroidStudio.", tech: "Java · Android Studio" },
-      { name: "C-BASH-Web", cat: "TRAINING", desc: "6-week intensive course in C, Bash, Web.", tech: "C · Bash · Web" },
-      { name: "MySQL", cat: "DATABASE", desc: "Creating databases with MySQL.", tech: "MySQL · SQL" },
+      { name: "E-Commerce Laravel", cat: "FULL STACK", desc: "Complete e-commerce site with HTML, CSS, JS and Laravel.", tech: "Laravel · JS · CSS" },
+      { name: "TicketChainer", cat: "HACKATHON", desc: "Project lead, team of 8. FrontEnd, APIs, Docker, Symfony.", tech: "Docker · Symfony · APIs" },
+      { name: "Weather App", cat: "iOS", desc: "Native weather app built in Swift.", tech: "Swift · Xcode" },
+      { name: "Twitter Clone", cat: "BACKEND", desc: "Full social network in NodeJs.", tech: "Node.js · MongoDB" },
+      { name: "Debian Server", cat: "DEVOPS", desc: "Web server from scratch with Debian, VirtualBox, VMware.", tech: "Debian · Shell · VM" },
+      { name: "RPG Game", cat: "GAME DEV", desc: "Complete RPG graphical interface in Java.", tech: "Java · Swing" },
+      { name: "Azure Cognitive", cat: "CLOUD · AI", desc: "Facial recognition with Face API. Top 5 Microsoft Camp.", tech: "Azure · API" },
+      { name: "Android App", cat: "MOBILE", desc: "Android Studio application in Java.", tech: "Java · Android" },
+      { name: "CRUD in C", cat: "ALGO", desc: "CRUD model data structure in C.", tech: "C" },
+      { name: "Fullstack Java", cat: "FULL STACK", desc: "Backend + frontend Java AndroidStudio app.", tech: "Java · Android" },
+      { name: "C-BASH-Web", cat: "TRAINING", desc: "6-week intensive in C, Bash, Web.", tech: "C · Bash · Web" },
+      { name: "MySQL Databases", cat: "DATABASE", desc: "Creating databases with MySQL.", tech: "MySQL" },
     ],
-    skillsNum: "04",
-    skillsTitle: "Skills",
-    skillsSub: "Technical stack",
-    skillCats: {
-      "Languages": ["HTML/CSS/JS", "Node.js", "TypeScript", "Swift", "React Native", "Bootstrap", "Tailwind"],
-      "Web Technologies": ["Angular", "Symfony", "PHP Framework"],
-      "Tools": ["Git", "GitHub/GitLab", "Xcode", "VS Code", "Postman", "Adobe XD", "Figma", "Photoshop", "Adobe Illustrator", "Microsoft Office", "Docker", "Android Studio", "Virtual Machine", "Bash", "Shell"],
-      "Cloud Services": ["Microsoft Azure SQL"],
-      "DevOps": ["Docker", "Git", "GitHub/GitLab", "VS Code", "Bash", "Shell"],
-      "Data Tools": ["Power BI", "SAP", "Excel (Pivot Tables, VLOOKUP, Dashboards)"],
-    },
-    extraNum: "05",
-    extraTitle: "Activities",
-    extraSub: "Extracurricular activities & awards",
+    showAll: "Show all projects", showLess: "Show less",
+    skillsNum: "04", skillsTitle: "Skills", skillsSub: "Technical stack",
+    skillCats: [
+      { cat: "Languages", items: ["HTML/CSS/JS", "Node.js", "TypeScript", "Swift", "React Native", "Bootstrap", "Tailwind"] },
+      { cat: "Web Technologies", items: ["Angular", "Symfony", "PHP Framework"] },
+      { cat: "Tools", items: ["Git", "GitHub/GitLab", "Xcode", "VS Code", "Postman", "Adobe XD", "Figma", "Photoshop", "Illustrator", "Microsoft Office", "Docker", "Android Studio", "Bash", "Shell"] },
+      { cat: "Cloud Services", items: ["Microsoft Azure SQL"] },
+      { cat: "DevOps", items: ["Docker", "Git", "GitHub/GitLab", "VS Code", "Bash", "Shell"] },
+      { cat: "Data Tools", items: ["Power BI", "SAP", "Excel (Pivot Tables, VLOOKUP, Dashboards)"] },
+    ],
+    courseworkLabel: "Relevant Coursework",
+    coursework: "Frontend Development, Backend Development, Innovation Management, Cloud Infrastructure Engineering, VR/AR & Video Game Engineering, Mobile Application Development Engineering.",
+    extraNum: "05", extraTitle: "Activities", extraSub: "Extracurricular & awards",
     extras: [
-      { title: "Project Leader — TicketChainer", year: "2019", desc: "Led a team of 8 individuals, overseeing the integration and support of the website's Front End. Managed API support and integration along with template adaptation. Provided guidance throughout the design, development, maintenance and support phases of the data infrastructure." },
-      { title: "Top 5 Microsoft Camp", year: "2020", desc: "Participated in Microsoft Camp: Cognitive Service, gaining insights into API Faces, an integral component of Microsoft's Cognitive Services suite." },
+      { title: "Project Leader — TicketChainer", year: "2019", desc: "Led a team of 8, overseeing FrontEnd integration, API management, and template adaptation across all project phases." },
+      { title: "Top 5 Microsoft Camp", year: "2020", desc: "Participated in Microsoft Camp: Cognitive Service, gaining insights into the Face API from Microsoft's Cognitive Services suite." },
     ],
-    courseworkTitle: "Relevant Coursework",
-    coursework: "Frontend Development, Backend Development, Innovation Management and Entrepreneurship, Cloud Infrastructure Engineering, Virtual Reality, Augmented Reality and Video Game Engineering, Mobile Application Development Engineering.",
-    contactNum: "06",
-    contactTitle: "Let's work",
-    contactTitle2: "together",
-    contactDesc: "Whether it's a development mission, a digital transformation project, or a collaboration in aerospace — I'm all ears.",
+    contactNum: "06", contactTitle: "Let's work", contactTitle2: "together",
+    contactDesc: "Whether it's development, digital transformation, or aerospace — I'm all ears.",
     contactLabels: { email: "Email", linkedin: "LinkedIn", github: "GitHub", phone: "Phone" },
     footer: "Made with passion for aviation",
+    chatGreeting: "👋 Hi! I'm Justine's assistant. What would you like to know?",
+    chatOptions: ["Career path", "Technical skills", "Projects", "Contact info"],
+    chatReplies: [
+      "Justine has 5+ years of experience. Currently at **Safran Aircraft Engines** as Planning Support Analyst (Supply Chain & Data). Previously: Shepherd of Egypt (Web Dev), Tradespotting (Front End), ETNA (Full Stack), SHIFT89 (Web Dev & Lead).",
+      "**Languages**: HTML/CSS/JS, TypeScript, PHP, Swift, Java, C\n**Frameworks**: React, Laravel, Symfony, Angular, Node.js\n**Data & Cloud**: Power BI, SAP, Azure SQL, Docker\n**Design**: Figma, Adobe XD, Photoshop, Illustrator",
+      "13+ projects including: E-Commerce Laravel, TicketChainer (hackathon lead), iOS Weather App, Twitter Clone, Debian Server, RPG Game, Azure Cognitive Services (Top 5 Microsoft Camp).",
+      "📧 tadrosjustine21@gmail.com\n🔗 linkedin.com/in/justinetadros\n💻 github.com/JustineTdrs\n📞 +33 7 68 98 59 03",
+    ],
+    chatPlaceholder: "Pick an option above...",
+    darkMode: "Dark mode", lightMode: "Light mode",
   },
-
   ar: {
     dir: "rtl",
     nav: ["نبذة عني", "المسيرة", "المشاريع", "المهارات", "اتصل بي"],
     heroSub: "مطورة Full Stack · سافران لمحركات الطائرات",
-    heroTitle1: "حيث يلتقي",
-    heroTitle2: "البرمجة",
-    heroTitle3: "بعالم",
-    heroTitle4: "الطيران",
+    heroTitle: ["حيث يلتقي", "البرمجة", "بعالم", "الطيران"],
     heroDesc: "مطورة Full Stack في سافران لمحركات الطائرات، أصمم حلولاً رقمية عند تقاطع التكنولوجيا وصناعة الطيران.",
-    btnDiscover: "اكتشف",
-    btnContact: "اتصل بي",
-    scroll: "مرر",
-    aboutNum: "٠١",
-    aboutTitle: "نبذة عني",
-    aboutSub: "الملف الشخصي · التعليم · اللغات",
+    btnDiscover: "اكتشف", btnContact: "اتصل بي",
+    aboutNum: "٠١", aboutTitle: "نبذة عني", aboutSub: "الملف الشخصي · التعليم · اللغات",
     aboutP1: "من باريس إلى القاهرة، مروراً بكيبيك — مسيرة دولية صقلتها الفضول التقني والشغف بالصناعة.",
-    aboutP2: "حاصلة على بكالوريوس في إدارة مشاريع الويب والموبايل من ETNA وتدريب في تصميم التفاعل من جامعة لافال، أحضّر حالياً ماجستير في الذكاء الاصطناعي والبيانات الضخمة في مدرسة 89. مسيرتي تجمع بين تطوير البرمجيات وهندسة البيانات والتحول الرقمي في قطاع الطيران.",
+    aboutP2: "حاصلة على بكالوريوس في إدارة مشاريع الويب والموبايل من ETNA وتدريب في تصميم التفاعل من جامعة لافال، أحضّر حالياً ماجستير في الذكاء الاصطناعي والبيانات الضخمة في مدرسة 89.",
     eduLabel: "التعليم",
     edu: [
       { year: "٢٠٢٥", school: "مدرسة 89", diploma: "ماجستير ذكاء اصطناعي وبيانات ضخمة", note: "قيد الدراسة" },
-      { year: "٢٠٢٢", school: "جامعة لافال، كيبيك", diploma: "تدريب ماجستير تصميم التفاعل", note: "" },
-      { year: "٢٠٢١", school: "ETNA، باريس", diploma: "بكالوريوس إدارة مشاريع الويب والموبايل", note: "" },
+      { year: "٢٠٢٢", school: "جامعة لافال، كيبيك", diploma: "تدريب ماجستير تصميم التفاعل" },
+      { year: "٢٠٢١", school: "ETNA، باريس", diploma: "بكالوريوس إدارة مشاريع الويب والموبايل" },
     ],
     langLabel: "اللغات",
     langs: [
       { lang: "الفرنسية", level: "لغة أم", pct: 100 },
-      { lang: "العربية (اللهجة المصرية)", level: "لغة أم", pct: 100 },
+      { lang: "العربية (المصرية)", level: "لغة أم", pct: 100 },
       { lang: "الإنجليزية", level: "طلاقة", pct: 90 },
     ],
-    statsYears: "سنوات", statsProjects: "مشاريع", statsLangs: "لغات", statsTeam: "زملاء",
-    expNum: "٠٢",
-    expTitle: "المسيرة",
-    expSub: "الخبرة المهنية",
+    stats: [{ n: "٥+", l: "سنوات" }, { n: "١٣", l: "مشاريع" }, { n: "٣", l: "لغات" }, { n: "٨", l: "زملاء" }],
+    expNum: "٠٢", expTitle: "المسيرة", expSub: "الخبرة المهنية",
     experiences: [
-      {
-        year: "حالياً", company: "سافران لمحركات الطائرات", role: "محللة دعم التخطيط", sub: "سلسلة التوريد والبيانات", location: "باريس، فرنسا",
-        bullets: [
-          "متابعة تقدم مشاريع التحول الرقمي والبيانات الجارية في أقسام سلسلة التوريد والإنتاج.",
-          "اختبار والتحقق من حلول البيانات المطورة من قبل فريق DATA الداخلي لضمان الموثوقية والامتثال لمعايير سافران.",
-          "إجراء اختبارات القبول (UAT) والمساعدة في نشر الأدوات ولوحات المعلومات الجديدة.",
-          "تدريب المستخدمين النهائيين على الحلول الرقمية المنشورة وتقديم الدعم الوظيفي المستمر.",
-          "صياغة وثائق تقنية مفصلة وأدلة مستخدم باللغة الإنجليزية للفرق الدولية.",
-          "تقديم دعم إضافي خلال أوقات الذروة، لضمان التعاون بين الفرق واستمرارية المشاريع.",
-        ],
-      },
-      {
-        year: "٢٠٢٤–٢٠٢٥", company: "شيبرد أوف إيجبت", role: "مطورة ويب", sub: "البنية التحتية ووردبريس", location: "القاهرة، مصر",
-        bullets: [
-          "تشخيص وحل مشاكل ووردبريس الحرجة، بما في ذلك تعارضات الإضافات وأعطال البريد الإلكتروني وأخطاء قاعدة البيانات.",
-          "تكوين وصيانة إعدادات الخادم وخدمات SMTP وسجلات DNS (SPF, DKIM, DMARC).",
-          "استكشاف الأخطاء وإصلاحها بمستوى خبير لبيئات الاستضافة، بما في ذلك تكوينات PHP وإعداد SSL.",
-        ],
-      },
-      {
-        year: "٢٠٢١–٢٠٢٢", company: "تريدسبوتينغ", role: "مطورة Front End", sub: "الهندسة والواجهات البرمجية", location: "باريس، فرنسا",
-        bullets: [
-          "التعاون مع مدير تكنولوجيا المعلومات لمراجعة وتحسين المواقع الإلكترونية وتطبيقات الهاتف المحمول.",
-          "تصميم هندسة البيانات، بما في ذلك المصادر واستراتيجية التحميل والأمان والتصور.",
-          "إنشاء واجهات برمجة التطبيقات بمواصفات ونقاط نهاية محددة.",
-        ],
-      },
-      {
-        year: "٢٠٢٠–٢٠٢١", company: "ETNA", role: "مطورة Full Stack", sub: "المنصات الجامعية", location: "باريس، فرنسا",
-        bullets: [
-          "تحديد وإصلاح مشاكل المنصة باستخدام Docker و PHP.",
-          "حل المشاكل التقنية داخل المنصات الجامعية لضمان أداء سلس وفعال.",
-        ],
-      },
-      {
-        year: "٢٠١٩–٢٠٢٠", company: "SHIFT89", role: "مطورة ويب وقائدة فريق", sub: "إدارة الفريق", location: "باريس، فرنسا",
-        bullets: [
-          "مسؤولة عن تقييم وتحسين المواقع الإلكترونية وتطبيقات الهاتف المحمول، وإدارة اجتماعات يومية لتوزيع المهام ومرافقة عضوين في الفريق.",
-          "الإشراف على توظيف وتوجيه المتدربين.",
-          "تقديم الحلول للعملاء وتنسيق تحسينات المشاريع بناءً على ملاحظاتهم.",
-        ],
-      },
+      { year: "حالياً", company: "سافران لمحركات الطائرات", role: "محللة دعم التخطيط", sub: "سلسلة التوريد والبيانات", location: "باريس، فرنسا", bullets: ["متابعة تقدم مشاريع التحول الرقمي والبيانات في أقسام سلسلة التوريد والإنتاج.", "اختبار والتحقق من حلول البيانات المطورة من فريق DATA الداخلي.", "إجراء اختبارات القبول (UAT) والمساعدة في نشر الأدوات ولوحات المعلومات.", "تدريب المستخدمين النهائيين وتقديم الدعم الوظيفي المستمر.", "صياغة وثائق تقنية مفصلة وأدلة مستخدم باللغة الإنجليزية.", "تقديم دعم إضافي خلال أوقات الذروة والتعاون بين الفرق."] },
+      { year: "٢٠٢٤–٢٠٢٥", company: "شيبرد أوف إيجبت", role: "مطورة ويب", sub: "البنية التحتية ووردبريس", location: "القاهرة، مصر", bullets: ["تشخيص وحل مشاكل ووردبريس الحرجة.", "تكوين الخادم وخدمات SMTP وسجلات DNS.", "استكشاف الأخطاء وإصلاحها: PHP, SSL, أخطاء backend."] },
+      { year: "٢٠٢١–٢٠٢٢", company: "تريدسبوتينغ", role: "مطورة Front End", sub: "الهندسة والواجهات البرمجية", location: "باريس، فرنسا", bullets: ["التعاون مع مدير IT لتحسين المواقع والتطبيقات.", "تصميم هندسة البيانات: المصادر، التحميل، الأمان، التصور.", "إنشاء واجهات برمجة التطبيقات بمواصفات محددة."] },
+      { year: "٢٠٢٠–٢٠٢١", company: "ETNA", role: "مطورة Full Stack", sub: "المنصات الجامعية", location: "باريس، فرنسا", bullets: ["تحديد وإصلاح مشاكل المنصة باستخدام Docker و PHP.", "حل المشاكل التقنية لضمان أداء سلس."] },
+      { year: "٢٠١٩–٢٠٢٠", company: "SHIFT89", role: "مطورة ويب وقائدة فريق", sub: "إدارة الفريق", location: "باريس، فرنسا", bullets: ["تقييم وتحسين المواقع والتطبيقات، إدارة اجتماعات يومية.", "الإشراف على توظيف وتوجيه المتدربين.", "تقديم الحلول للعملاء وتنسيق التحسينات."] },
     ],
-    projNum: "٠٣",
-    projTitle: "المشاريع",
-    projSub: "إنجازات تقنية مختارة",
+    projNum: "٠٣", projTitle: "المشاريع", projSub: "إنجازات تقنية",
     projects: [
-      { name: "متجر إلكتروني Laravel", cat: "FULL STACK", desc: "تطوير موقع تجارة إلكترونية كامل بـ HTML و CSS و JavaScript مع إطار عمل Laravel.", tech: "Laravel · HTML/CSS · JavaScript" },
-      { name: "TicketChainer", cat: "هاكاثون · قائدة مشروع", desc: "قيادة فريق من 8 أشخاص. دمج ودعم الواجهة الأمامية مع دمج APIs وتكييف القوالب باستخدام Docker و Symfony.", tech: "Docker · Symfony · APIs" },
-      { name: "تطبيق الطقس", cat: "iOS أصلي", desc: "إنشاء تطبيق طقس خاص بي باستخدام Swift.", tech: "Swift · Xcode · REST API" },
-      { name: "نسخة تويتر", cat: "BACKEND", desc: "إنشاء شبكة اجتماعية خاصة بي باستخدام NodeJs.", tech: "Node.js · Backend" },
-      { name: "خادم ويب Debian", cat: "DEVOPS", desc: "إعداد خادم ويب باستخدام Debian و Shell مع VirtualBox و VMware.", tech: "Debian · Shell · VM" },
-      { name: "لعبة RPG", cat: "تطوير ألعاب", desc: "إنشاء واجهة رسومية للعبة RPG في Java.", tech: "Java · Swing · OOP" },
-      { name: "Microsoft Azure", cat: "سحابة · ذكاء اصطناعي", desc: "خدمة معرفية، التعرف على الوجوه باستخدام Face API. أفضل 5 في معسكر مايكروسوفت.", tech: "Azure · Cognitive Services" },
-      { name: "تطبيق أندرويد", cat: "موبايل", desc: "إنشاء تطبيق باستخدام Android Studio و Java.", tech: "Java · Android Studio" },
-      { name: "بنية CRUD في C", cat: "خوارزميات", desc: "إنشاء بنية بيانات نموذج CRUD في C.", tech: "C · هياكل البيانات" },
-      { name: "مشروع Fullstack Java", cat: "FULL STACK", desc: "تطوير تطبيق Backend و Frontend في Java مع AndroidStudio.", tech: "Java · Android Studio" },
-      { name: "C-BASH-Web", cat: "تدريب", desc: "دورة مكثفة لمدة 6 أسابيع في C و Bash و Web.", tech: "C · Bash · Web" },
-      { name: "MySQL", cat: "قواعد بيانات", desc: "إنشاء قواعد بيانات باستخدام MySQL.", tech: "MySQL · SQL" },
+      { name: "متجر Laravel", cat: "FULL STACK", desc: "موقع تجارة إلكترونية كامل بـ Laravel.", tech: "Laravel · JS · CSS" },
+      { name: "TicketChainer", cat: "هاكاثون", desc: "قيادة فريق من 8. FrontEnd, APIs, Docker, Symfony.", tech: "Docker · Symfony" },
+      { name: "تطبيق الطقس", cat: "iOS", desc: "تطبيق طقس أصلي بـ Swift.", tech: "Swift · Xcode" },
+      { name: "نسخة تويتر", cat: "BACKEND", desc: "شبكة اجتماعية بـ NodeJs.", tech: "Node.js" },
+      { name: "خادم Debian", cat: "DEVOPS", desc: "خادم ويب من الصفر.", tech: "Debian · Shell" },
+      { name: "لعبة RPG", cat: "ألعاب", desc: "واجهة رسومية RPG بـ Java.", tech: "Java · Swing" },
+      { name: "Azure Cognitive", cat: "سحابة", desc: "التعرف على الوجوه. أفضل 5 معسكر مايكروسوفت.", tech: "Azure · API" },
+      { name: "تطبيق أندرويد", cat: "موبايل", desc: "تطبيق Android Studio بـ Java.", tech: "Java · Android" },
+      { name: "CRUD بلغة C", cat: "خوارزميات", desc: "بنية بيانات CRUD بلغة C.", tech: "C" },
+      { name: "Fullstack Java", cat: "FULL STACK", desc: "تطبيق Backend + Frontend بـ Java.", tech: "Java · Android" },
+      { name: "C-BASH-Web", cat: "تدريب", desc: "دورة مكثفة 6 أسابيع.", tech: "C · Bash · Web" },
+      { name: "MySQL", cat: "قواعد بيانات", desc: "إنشاء قواعد بيانات.", tech: "MySQL" },
     ],
-    skillsNum: "٠٤",
-    skillsTitle: "المهارات",
-    skillsSub: "المجموعة التقنية",
-    skillCats: {
-      "لغات البرمجة": ["HTML/CSS/JS", "Node.js", "TypeScript", "Swift", "React Native", "Bootstrap", "Tailwind"],
-      "تقنيات الويب": ["Angular", "Symfony", "PHP Framework"],
-      "الأدوات": ["Git", "GitHub/GitLab", "Xcode", "VS Code", "Postman", "Adobe XD", "Figma", "Photoshop", "Adobe Illustrator", "Microsoft Office", "Docker", "Android Studio", "آلة افتراضية", "Bash", "Shell"],
-      "خدمات سحابية": ["Microsoft Azure SQL"],
-      "DevOps": ["Docker", "Git", "GitHub/GitLab", "VS Code", "Bash", "Shell"],
-      "أدوات البيانات": ["Power BI", "SAP", "Excel (جداول محورية، VLOOKUP، لوحات معلومات)"],
-    },
-    extraNum: "٠٥",
-    extraTitle: "الأنشطة",
-    extraSub: "الأنشطة اللامنهجية والجوائز",
+    showAll: "عرض الكل", showLess: "عرض أقل",
+    skillsNum: "٠٤", skillsTitle: "المهارات", skillsSub: "المجموعة التقنية",
+    skillCats: [
+      { cat: "لغات البرمجة", items: ["HTML/CSS/JS", "Node.js", "TypeScript", "Swift", "React Native", "Bootstrap", "Tailwind"] },
+      { cat: "تقنيات الويب", items: ["Angular", "Symfony", "PHP Framework"] },
+      { cat: "الأدوات", items: ["Git", "GitHub/GitLab", "Xcode", "VS Code", "Postman", "Adobe XD", "Figma", "Photoshop", "Illustrator", "Microsoft Office", "Docker", "Android Studio", "Bash", "Shell"] },
+      { cat: "خدمات سحابية", items: ["Microsoft Azure SQL"] },
+      { cat: "DevOps", items: ["Docker", "Git", "GitHub/GitLab", "VS Code", "Bash", "Shell"] },
+      { cat: "أدوات البيانات", items: ["Power BI", "SAP", "Excel (جداول محورية, VLOOKUP, لوحات)"] },
+    ],
+    courseworkLabel: "المقررات الدراسية",
+    coursework: "تطوير الواجهة الأمامية، تطوير الواجهة الخلفية، إدارة الابتكار، هندسة البنية التحتية السحابية، الواقع الافتراضي والمعزز وألعاب الفيديو، هندسة تطوير تطبيقات الموبايل.",
+    extraNum: "٠٥", extraTitle: "الأنشطة", extraSub: "أنشطة لامنهجية وجوائز",
     extras: [
-      { title: "قائدة مشروع — TicketChainer", year: "٢٠١٩", desc: "قيادة فريق من 8 أفراد، الإشراف على دمج ودعم الواجهة الأمامية للموقع. إدارة دعم ودمج الواجهات البرمجية وتكييف القوالب. تقديم التوجيه خلال مراحل التصميم والتطوير والصيانة والدعم." },
-      { title: "أفضل 5 في معسكر مايكروسوفت", year: "٢٠٢٠", desc: "المشاركة في معسكر مايكروسوفت: الخدمة المعرفية، اكتساب معرفة حول واجهة برمجة الوجوه، مكون أساسي في مجموعة الخدمات المعرفية لمايكروسوفت." },
+      { title: "قائدة مشروع — TicketChainer", year: "٢٠١٩", desc: "قيادة فريق من 8 أفراد، إدارة دمج الواجهة الأمامية والواجهات البرمجية عبر جميع مراحل المشروع." },
+      { title: "أفضل 5 معسكر مايكروسوفت", year: "٢٠٢٠", desc: "المشاركة في معسكر مايكروسوفت: الخدمة المعرفية وواجهة التعرف على الوجوه." },
     ],
-    courseworkTitle: "المقررات الدراسية ذات الصلة",
-    coursework: "تطوير الواجهة الأمامية، تطوير الواجهة الخلفية، إدارة الابتكار وريادة الأعمال، هندسة البنية التحتية السحابية، الواقع الافتراضي، الواقع المعزز وهندسة ألعاب الفيديو، هندسة تطوير تطبيقات الهاتف المحمول.",
-    contactNum: "٠٦",
-    contactTitle: "لنعمل",
-    contactTitle2: "معاً",
-    contactDesc: "سواء كانت مهمة تطوير أو مشروع تحول رقمي أو تعاون في مجال الطيران — أنا مستعدة للاستماع.",
-    contactLabels: { email: "البريد الإلكتروني", linkedin: "لينكد إن", github: "غيت هاب", phone: "الهاتف" },
+    contactNum: "٠٦", contactTitle: "لنعمل", contactTitle2: "معاً",
+    contactDesc: "سواء كان تطويراً أو تحولاً رقمياً أو تعاوناً في الطيران — أنا مستعدة.",
+    contactLabels: { email: "البريد", linkedin: "لينكد إن", github: "غيت هاب", phone: "الهاتف" },
     footer: "صُنع بشغف الطيران",
+    chatGreeting: "👋 مرحباً! أنا مساعدة جوستين. ماذا تريد أن تعرف؟",
+    chatOptions: ["المسيرة المهنية", "المهارات التقنية", "المشاريع", "معلومات الاتصال"],
+    chatReplies: [
+      "جوستين لديها ٥+ سنوات خبرة. تعمل حالياً في **سافران** كمحللة دعم تخطيط. سابقاً: Shepherd of Egypt, Tradespotting, ETNA, SHIFT89.",
+      "**لغات**: HTML/CSS/JS, TypeScript, PHP, Swift, Java, C\n**أطر عمل**: React, Laravel, Symfony, Angular, Node.js\n**بيانات وسحابة**: Power BI, SAP, Azure SQL, Docker",
+      "١٣+ مشروع تشمل: متجر Laravel، TicketChainer (قائدة مشروع)، تطبيق طقس iOS، نسخة تويتر، خادم Debian، لعبة RPG، Azure Cognitive.",
+      "📧 tadrosjustine21@gmail.com\n🔗 linkedin.com/in/justinetadros\n💻 github.com/JustineTdrs\n📞 +33 7 68 98 59 03",
+    ],
+    chatPlaceholder: "اختر خياراً أعلاه...",
+    darkMode: "الوضع الداكن", lightMode: "الوضع الفاتح",
   },
 };
 
-/* ═══════ SVG COMPONENTS ═══════ */
-const BlueprintGrid = () => (
-  <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.03, pointerEvents: "none" }}>
+/* ═══════ SVGs ═══════ */
+const BlueprintGrid = ({ dark }) => (
+  <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: dark ? 0.06 : 0.03, pointerEvents: "none" }}>
     <defs>
-      <pattern id="bpG" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1a2744" strokeWidth="0.5" /></pattern>
-      <pattern id="bpS" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M 12 0 L 0 0 0 12" fill="none" stroke="#1a2744" strokeWidth="0.3" /></pattern>
+      <pattern id="bpG" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke={dark ? "#4a9eff" : "#1a2744"} strokeWidth="0.5" /></pattern>
+      <pattern id="bpS" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M 12 0 L 0 0 0 12" fill="none" stroke={dark ? "#4a9eff" : "#1a2744"} strokeWidth="0.3" /></pattern>
     </defs>
     <rect width="100%" height="100%" fill="url(#bpS)" /><rect width="100%" height="100%" fill="url(#bpG)" />
   </svg>
 );
 
-const AircraftSVG = ({ style }) => (
+const AircraftSVG = ({ style, color = "currentColor", opacity = 0.35 }) => (
   <svg viewBox="0 0 800 200" style={style} fill="none">
-    <path d="M 50 100 Q 80 85 200 88 L 600 88 Q 720 88 760 95 L 770 100 Q 760 105 720 112 L 600 112 L 200 112 Q 80 115 50 100 Z" stroke="currentColor" strokeWidth="0.8" opacity="0.5" />
-    <path d="M 280 88 L 220 30 Q 215 26 225 26 L 380 26 Q 390 26 385 30 L 340 88" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
-    <path d="M 280 112 L 220 170 Q 215 174 225 174 L 380 174 Q 390 174 385 170 L 340 112" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
-    <path d="M 650 88 L 640 50 Q 638 44 645 44 L 710 44 Q 718 44 715 50 L 695 88" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
-    <path d="M 650 112 L 640 150 Q 638 156 645 156 L 710 156 Q 718 156 715 150 L 695 112" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
-    <ellipse cx="300" cy="30" rx="22" ry="8" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-    <ellipse cx="300" cy="170" rx="22" ry="8" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-    <line x1="50" y1="130" x2="770" y2="130" stroke="currentColor" strokeWidth="0.3" strokeDasharray="4 3" opacity="0.2" />
+    <path d="M 50 100 Q 80 85 200 88 L 600 88 Q 720 88 760 95 L 770 100 Q 760 105 720 112 L 600 112 L 200 112 Q 80 115 50 100 Z" stroke={color} strokeWidth="1.2" fill="none" opacity={opacity} />
+    <path d="M 280 88 L 220 30 Q 215 26 225 26 L 380 26 Q 390 26 385 30 L 340 88" stroke={color} strokeWidth="1" fill="none" opacity={opacity * 0.8} />
+    <path d="M 280 112 L 220 170 Q 215 174 225 174 L 380 174 Q 390 174 385 170 L 340 112" stroke={color} strokeWidth="1" fill="none" opacity={opacity * 0.8} />
+    <path d="M 650 88 L 640 50 Q 638 44 645 44 L 710 44 Q 718 44 715 50 L 695 88" stroke={color} strokeWidth="1" fill="none" opacity={opacity * 0.8} />
+    <path d="M 650 112 L 640 150 Q 638 156 645 156 L 710 156 Q 718 156 715 150 L 695 112" stroke={color} strokeWidth="1" fill="none" opacity={opacity * 0.8} />
+    <ellipse cx="300" cy="30" rx="22" ry="8" stroke={color} strokeWidth="0.8" opacity={opacity * 0.7} />
+    <ellipse cx="300" cy="170" rx="22" ry="8" stroke={color} strokeWidth="0.8" opacity={opacity * 0.7} />
+    <line x1="50" y1="135" x2="770" y2="135" stroke={color} strokeWidth="0.5" strokeDasharray="6 4" opacity={opacity * 0.5} />
+    <line x1="50" y1="132" x2="50" y2="138" stroke={color} strokeWidth="0.5" opacity={opacity * 0.5} />
+    <line x1="770" y1="132" x2="770" y2="138" stroke={color} strokeWidth="0.5" opacity={opacity * 0.5} />
+    <text x="410" y="145" textAnchor="middle" fill={color} fontSize="6" opacity={opacity * 0.4} fontFamily="monospace">720 mm</text>
+    <line x1="395" y1="82" x2="395" y2="118" stroke={color} strokeWidth="0.4" strokeDasharray="3 3" opacity={opacity * 0.4} />
+    <line x1="380" y1="100" x2="410" y2="100" stroke={color} strokeWidth="0.4" strokeDasharray="3 3" opacity={opacity * 0.4} />
+    <circle cx="395" cy="100" r="2" fill={color} opacity={opacity * 0.3} />
   </svg>
 );
 
-const TurbineBlueprint = ({ size = 200, style }) => (
+const TurbineBlueprint = ({ size = 200, style, color = "var(--gold)" }) => (
   <svg viewBox="0 0 200 200" style={{ width: size, height: size, ...style }} fill="none">
-    <circle cx="100" cy="100" r="95" stroke="var(--gold)" strokeWidth="0.3" opacity="0.3" />
-    <circle cx="100" cy="100" r="70" stroke="var(--gold)" strokeWidth="0.3" opacity="0.25" />
-    <circle cx="100" cy="100" r="45" stroke="var(--gold)" strokeWidth="0.3" opacity="0.2" />
-    <circle cx="100" cy="100" r="20" stroke="var(--gold)" strokeWidth="0.4" opacity="0.4" />
-    <circle cx="100" cy="100" r="6" fill="var(--gold)" opacity="0.15" />
-    {Array.from({ length: 24 }).map((_, i) => { const a = i * 15 * Math.PI / 180; return <line key={i} x1={100 + 22 * Math.cos(a)} y1={100 + 22 * Math.sin(a)} x2={100 + 93 * Math.cos(a)} y2={100 + 93 * Math.sin(a)} stroke="var(--gold)" strokeWidth="0.2" opacity="0.12" />; })}
-    {Array.from({ length: 8 }).map((_, i) => { const a = i * 45 * Math.PI / 180; const n = (i * 45 + 22) * Math.PI / 180; return <path key={i} d={`M ${100 + 20 * Math.cos(a)} ${100 + 20 * Math.sin(a)} Q ${100 + 55 * Math.cos(n)} ${100 + 55 * Math.sin(n)} ${100 + 85 * Math.cos(a)} ${100 + 85 * Math.sin(a)}`} stroke="var(--gold)" strokeWidth="0.5" opacity="0.25" />; })}
+    <circle cx="100" cy="100" r="95" stroke={color} strokeWidth="0.4" opacity="0.35" />
+    <circle cx="100" cy="100" r="70" stroke={color} strokeWidth="0.4" opacity="0.3" />
+    <circle cx="100" cy="100" r="45" stroke={color} strokeWidth="0.4" opacity="0.25" />
+    <circle cx="100" cy="100" r="20" stroke={color} strokeWidth="0.5" opacity="0.45" />
+    <circle cx="100" cy="100" r="6" fill={color} opacity="0.2" />
+    {Array.from({ length: 24 }).map((_, i) => { const a = i * 15 * Math.PI / 180; return <line key={i} x1={100 + 22 * Math.cos(a)} y1={100 + 22 * Math.sin(a)} x2={100 + 93 * Math.cos(a)} y2={100 + 93 * Math.sin(a)} stroke={color} strokeWidth="0.3" opacity="0.15" />; })}
+    {Array.from({ length: 8 }).map((_, i) => { const a = i * 45 * Math.PI / 180; const n = (i * 45 + 22) * Math.PI / 180; return <path key={i} d={`M ${100 + 20 * Math.cos(a)} ${100 + 20 * Math.sin(a)} Q ${100 + 55 * Math.cos(n)} ${100 + 55 * Math.sin(n)} ${100 + 85 * Math.cos(a)} ${100 + 85 * Math.sin(a)}`} stroke={color} strokeWidth="0.7" opacity="0.3" />; })}
   </svg>
 );
 
-/* ═══════ HOOKS ═══════ */
-function useInView(th = 0.15) {
+/* ═══════ ANIMATED SECTION ═══════ */
+const FadeIn = ({ children, delay = 0, style = {} }) => {
   const ref = useRef(null);
   const [v, setV] = useState(false);
-  useEffect(() => { const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setV(true); }, { threshold: th }); if (ref.current) o.observe(ref.current); return () => o.disconnect(); }, [th]);
-  return [ref, v];
-}
+  useEffect(() => { const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setV(true); }, { threshold: 0.1 }); if (ref.current) o.observe(ref.current); return () => o.disconnect(); }, []);
+  return <div ref={ref} style={{ opacity: v ? 1 : 0, transform: v ? "none" : "translateY(30px)", transition: `all 0.8s ${delay}s cubic-bezier(0.22,1,0.36,1)`, ...style }}>{children}</div>;
+};
 
-/* ═══════ SUB-COMPONENTS ═══════ */
-const SectionHead = ({ number, title, subtitle }) => { const [ref, vis] = useInView(); return (<div ref={ref} style={{ marginBottom: 64, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)" }}><div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}><span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--gold)", letterSpacing: 3 }}>{number}</span><div style={{ width: 40, height: 1, background: "var(--gold)", opacity: 0.4 }} /></div><h2 style={{ fontFamily: "var(--serif)", fontSize: "clamp(32px,5vw,56px)", fontWeight: 300, color: "var(--navy)", letterSpacing: -1, lineHeight: 1.1 }}>{title}</h2>{subtitle && <p style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--slate)", letterSpacing: 3, marginTop: 12, textTransform: "uppercase" }}>{subtitle}</p>}</div>); };
+const SectionHead = ({ number, title, subtitle, dark }) => (
+  <FadeIn style={{ marginBottom: 64 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
+      <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--gold)", letterSpacing: 3 }}>{number}</span>
+      <div style={{ width: 40, height: 1, background: "var(--gold)", opacity: 0.4 }} />
+    </div>
+    <h2 style={{ fontFamily: "var(--display)", fontSize: "clamp(32px,5vw,56px)", fontWeight: 300, color: dark ? "var(--fg)" : "var(--navy)", letterSpacing: -1, lineHeight: 1.1 }}>{title}</h2>
+    {subtitle && <p style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--muted)", letterSpacing: 3, marginTop: 12, textTransform: "uppercase" }}>{subtitle}</p>}
+  </FadeIn>
+);
 
-/* ═══════ MAIN ═══════ */
+/* ═══════ CHATBOT ═══════ */
+const Chatbot = ({ t, dark }) => {
+  const [open, setOpen] = useState(false);
+  const [msgs, setMsgs] = useState([]);
+  const [answered, setAnswered] = useState(new Set());
+  const chatEnd = useRef(null);
+
+  useEffect(() => { setMsgs([]); setAnswered(new Set()); }, [t]);
+  useEffect(() => { chatEnd.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs]);
+
+  const handleOption = (i) => {
+    if (answered.has(i)) return;
+    setAnswered(prev => new Set([...prev, i]));
+    setMsgs(prev => [...prev, { type: "user", text: t.chatOptions[i] }, { type: "bot", text: t.chatReplies[i] }]);
+  };
+
+  return (
+    <>
+      <button onClick={() => setOpen(!open)} style={{ position: "fixed", bottom: 24, right: 24, zIndex: 200, width: 56, height: 56, borderRadius: "50%", background: "var(--gold)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 20px rgba(0,0,0,0.15)", transition: "all 0.3s", transform: open ? "rotate(45deg)" : "none" }}>
+        <span style={{ fontSize: 24, color: "#fff", lineHeight: 1 }}>{open ? "+" : "✈"}</span>
+      </button>
+
+      {open && (
+        <div style={{ position: "fixed", bottom: 92, right: 24, zIndex: 200, width: 360, maxWidth: "calc(100vw - 48px)", height: 480, maxHeight: "60vh", background: dark ? "#1a1a2e" : "#fff", border: `1px solid ${dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"}`, borderRadius: 16, display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "0 20px 60px rgba(0,0,0,0.15)" }}>
+          {/* Header */}
+          <div style={{ padding: "16px 20px", borderBottom: `1px solid ${dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`, display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", boxShadow: "0 0 8px rgba(34,197,94,0.4)" }} />
+            <span style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: 2, color: "var(--muted)" }}>ASSISTANT DE JUSTINE</span>
+          </div>
+
+          {/* Messages */}
+          <div style={{ flex: 1, overflowY: "auto", padding: 20, display: "flex", flexDirection: "column", gap: 12 }}>
+            {/* Greeting */}
+            <div style={{ padding: "12px 16px", background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)", borderRadius: "4px 16px 16px 16px", maxWidth: "85%", fontSize: 13, lineHeight: 1.7, color: "var(--fg)" }}>{t.chatGreeting}</div>
+
+            {/* Options */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {t.chatOptions.map((opt, i) => (
+                <button key={i} onClick={() => handleOption(i)} style={{ padding: "8px 16px", border: `1px solid ${answered.has(i) ? "var(--gold)" : dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.1)"}`, borderRadius: 20, background: answered.has(i) ? "rgba(184,134,11,0.1)" : "transparent", color: answered.has(i) ? "var(--gold)" : "var(--fg)", fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 1, cursor: answered.has(i) ? "default" : "pointer", transition: "all 0.3s", opacity: answered.has(i) ? 0.6 : 1 }}>{opt}</button>
+              ))}
+            </div>
+
+            {/* Conversation */}
+            {msgs.map((m, i) => (
+              <div key={i} style={{ alignSelf: m.type === "user" ? "flex-end" : "flex-start", padding: "12px 16px", background: m.type === "user" ? "var(--gold)" : dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)", color: m.type === "user" ? "#fff" : "var(--fg)", borderRadius: m.type === "user" ? "16px 4px 16px 16px" : "4px 16px 16px 16px", maxWidth: "85%", fontSize: 12, lineHeight: 1.8, whiteSpace: "pre-line", fontFamily: "var(--sans)", animation: "fadeUp 0.3s ease" }}>
+                {m.text.split("**").map((part, j) => j % 2 === 1 ? <strong key={j}>{part}</strong> : part)}
+              </div>
+            ))}
+            <div ref={chatEnd} />
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+/* ═══════ MAIN PORTFOLIO ═══════ */
 export default function Portfolio() {
   const [lang, setLang] = useState("fr");
+  const [dark, setDark] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [activeExp, setActiveExp] = useState(0);
@@ -434,128 +372,127 @@ export default function Portfolio() {
 
   const visibleProjects = showAllProj ? t.projects : t.projects.slice(0, 6);
 
+  // Theme colors
+  const theme = dark
+    ? { bg: "#0a0e1a", bg2: "#0f1424", fg: "#e8e6e1", navy: "#e8e6e1", muted: "#7a8899", cardBg: "#131830", cardBorder: "rgba(255,255,255,0.06)", projBg: "#060a14", gold: "#D4A843" }
+    : { bg: "#F5F0E8", bg2: "#FAF7F2", fg: "#0D1B2A", navy: "#0D1B2A", muted: "#6B7B8D", cardBg: "#FAF7F2", cardBorder: "rgba(13,27,42,0.06)", projBg: "#0D1B2A", gold: "#B8860B" };
+
+  const df = isRtl ? "'Noto Sans Arabic', sans-serif" : "var(--serif)";
+  const bf = isRtl ? "'Noto Sans Arabic', sans-serif" : "var(--sans)";
+
   return (
-    <div dir={t.dir} style={{ background: "var(--cream)", color: "var(--navy)", minHeight: "100vh", fontFamily: "var(--sans)" }}>
+    <div dir={t.dir} style={{ background: theme.bg, color: theme.fg, minHeight: "100vh" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
-        :root { --cream:#F5F0E8; --ivory:#FAF7F2; --navy:#0D1B2A; --navy-light:#1B2D45; --gold:#B8860B; --gold-light:#D4A843; --copper:#C17F59; --slate:#6B7B8D; --slate-light:#9AACBD; --serif:'Playfair Display',Georgia,serif; --sans:'DM Sans',sans-serif; --mono:'IBM Plex Mono',monospace; }
-        * { margin:0; padding:0; box-sizing:border-box; } html { scroll-behavior:smooth; } body { background:var(--cream); }
-        ::selection { background:var(--gold); color:var(--cream); }
-        @keyframes fadeUp { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes rotateSlow { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
-        @keyframes float { 0%,100% { transform:translateY(0) rotate(0deg); } 50% { transform:translateY(-8px) rotate(1deg); } }
-        .nav-item { font-family:var(--mono); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--slate); cursor:pointer; padding:8px 0; position:relative; transition:color 0.3s; text-decoration:none; } .nav-item:hover { color:var(--navy); } .nav-item::after { content:''; position:absolute; bottom:4px; left:0; width:0; height:1px; background:var(--gold); transition:width 0.4s; } .nav-item:hover::after { width:100%; }
-        .skill-chip { display:inline-block; padding:8px 18px; border:1px solid rgba(13,27,42,0.08); font-family:var(--mono); font-size:11px; letter-spacing:1.5px; color:var(--navy-light); transition:all 0.3s; cursor:default; border-radius:1px; } .skill-chip:hover { border-color:var(--gold); color:var(--gold); background:rgba(184,134,11,0.03); }
-        .exp-tab { font-family:var(--mono); font-size:12px; letter-spacing:2px; padding:16px 24px; cursor:pointer; border:none; background:none; color:var(--slate); position:relative; transition:all 0.4s; text-align:left; width:100%; } .exp-tab:hover { color:var(--navy); } .exp-tab.active { color:var(--navy); } .exp-tab.active::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:var(--gold); }
-        .exp-tab-rtl { text-align:right; } .exp-tab-rtl.active::before { left:auto; right:0; }
-        .lang-btn { padding:6px 14px; border:1px solid rgba(13,27,42,0.1); background:transparent; color:var(--slate); font-family:var(--mono); font-size:10px; letter-spacing:2px; cursor:pointer; transition:all 0.3s; border-radius:1px; } .lang-btn:hover { border-color:var(--gold); color:var(--gold); } .lang-btn.active { background:var(--navy); color:var(--cream); border-color:var(--navy); }
-        ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-track { background:var(--cream); } ::-webkit-scrollbar-thumb { background:rgba(184,134,11,0.2); } ::-webkit-scrollbar-thumb:hover { background:rgba(184,134,11,0.4); }
-        @media(max-width:900px) { .hero-grid{grid-template-columns:1fr!important;text-align:center;} .hero-right{display:none!important;} .exp-grid{grid-template-columns:1fr!important;} .exp-sidebar{display:none!important;} .proj-grid{grid-template-columns:1fr!important;} .about-grid{grid-template-columns:1fr!important;} .contact-row{flex-direction:column!important;} .footer-inner{flex-direction:column!important;gap:24px!important;text-align:center!important;} .desktop-nav{display:none!important;} }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+        :root { --serif:'Playfair Display',Georgia,serif; --sans:'DM Sans',sans-serif; --mono:'IBM Plex Mono',monospace; --display:${df}; --gold:${theme.gold}; --navy:${theme.navy}; --fg:${theme.fg}; --muted:${theme.muted}; --bg:${theme.bg}; --bg2:${theme.bg2}; }
+        * { margin:0; padding:0; box-sizing:border-box; } html { scroll-behavior:smooth; } body { background:${theme.bg}; }
+        ::selection { background:var(--gold); color:${dark ? "#0a0e1a" : "#FAF7F2"}; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes rotateSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+        @keyframes float { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-10px) rotate(1deg)} }
+        .nav-item { font-family:var(--mono); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); cursor:pointer; padding:8px 0; position:relative; transition:color 0.3s; text-decoration:none; } .nav-item:hover{color:var(--fg)} .nav-item::after{content:'';position:absolute;bottom:4px;left:0;width:0;height:1px;background:var(--gold);transition:width 0.4s} .nav-item:hover::after{width:100%}
+        .chip { display:inline-block; padding:8px 18px; border:1px solid ${theme.cardBorder}; font-family:var(--mono); font-size:11px; letter-spacing:1.5px; color:var(--fg); transition:all 0.3s; cursor:default; border-radius:1px; } .chip:hover{border-color:var(--gold);color:var(--gold);background:rgba(184,134,11,0.05)}
+        .exp-tab { font-family:var(--mono); font-size:12px; letter-spacing:2px; padding:16px 24px; cursor:pointer; border:none; background:none; color:var(--muted); position:relative; transition:all 0.4s; text-align:${isRtl?"right":"left"}; width:100%; } .exp-tab:hover{color:var(--fg)} .exp-tab.active{color:var(--fg)} .exp-tab.active::before{content:'';position:absolute;${isRtl?"right":"left"}:0;top:0;bottom:0;width:2px;background:var(--gold)}
+        .btn-sm { padding:6px 14px; border:1px solid ${theme.cardBorder}; background:transparent; color:var(--muted); font-family:var(--mono); font-size:10px; letter-spacing:2px; cursor:pointer; transition:all 0.3s; border-radius:1px; } .btn-sm:hover{border-color:var(--gold);color:var(--gold)} .btn-sm.active{background:${dark?"var(--gold)":"var(--navy)"};color:${dark?"#0a0e1a":"#FAF7F2"};border-color:transparent}
+        ::-webkit-scrollbar{width:6px} ::-webkit-scrollbar-track{background:${theme.bg}} ::-webkit-scrollbar-thumb{background:rgba(184,134,11,0.2)} ::-webkit-scrollbar-thumb:hover{background:rgba(184,134,11,0.4)}
+        @media(max-width:900px){.hero-grid{grid-template-columns:1fr!important;text-align:center}.hero-right{display:none!important}.exp-grid{grid-template-columns:1fr!important}.exp-sidebar{display:none!important}.proj-grid{grid-template-columns:1fr!important}.about-grid{grid-template-columns:1fr!important}.contact-row{flex-direction:column!important}.footer-inner{flex-direction:column!important;gap:16px!important;text-align:center!important}.desktop-nav{display:none!important}}
       `}</style>
 
-      {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "0 48px", height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", background: scrollY > 80 ? "rgba(245,240,232,0.92)" : "transparent", backdropFilter: scrollY > 80 ? "blur(16px)" : "none", borderBottom: scrollY > 80 ? "1px solid rgba(13,27,42,0.05)" : "none", transition: "all 0.4s" }}>
+      {/* ═══ NAV ═══ */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "0 48px", height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", background: scrollY > 80 ? (dark ? "rgba(10,14,26,0.92)" : "rgba(245,240,232,0.92)") : "transparent", backdropFilter: scrollY > 80 ? "blur(16px)" : "none", borderBottom: scrollY > 80 ? `1px solid ${theme.cardBorder}` : "none", transition: "all 0.4s" }}>
         <a href="#hero" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
-          <svg viewBox="0 0 32 32" style={{ width: 28, height: 28 }} fill="none"><circle cx="16" cy="16" r="15" stroke="var(--gold)" strokeWidth="0.8" /><text x="16" y="20" textAnchor="middle" fill="var(--navy)" fontFamily="var(--serif)" fontSize="13" fontWeight="500">JT</text></svg>
-          <span style={{ fontFamily: "var(--serif)", fontSize: 14, fontWeight: 500, color: "var(--navy)", letterSpacing: 2 }}>JUSTINE TADROS</span>
+          <svg viewBox="0 0 32 32" style={{ width: 28, height: 28 }} fill="none"><circle cx="16" cy="16" r="15" stroke="var(--gold)" strokeWidth="0.8" /><text x="16" y="20" textAnchor="middle" fill="var(--fg)" fontFamily="var(--serif)" fontSize="13" fontWeight="500">JT</text></svg>
+          <span style={{ fontFamily: "var(--serif)", fontSize: 14, fontWeight: 500, color: "var(--fg)", letterSpacing: 2 }}>JUSTINE TADROS</span>
         </a>
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <div className="desktop-nav" style={{ display: "flex", gap: 32 }}>
-            {t.nav.map((s, i) => <a key={i} href={`#s${i}`} className="nav-item">{s}</a>)}
+          <div className="desktop-nav" style={{ display: "flex", gap: 32 }}>{t.nav.map((s, i) => <a key={i} href={`#s${i}`} className="nav-item">{s}</a>)}</div>
+          <div style={{ display: "flex", gap: 4 }}>
+            {[["fr","FR"],["en","EN"],["ar","AR"]].map(([k,l]) => <button key={k} className={`btn-sm ${lang===k?"active":""}`} onClick={() => setLang(k)}>{l}</button>)}
           </div>
-          <div style={{ display: "flex", gap: 4, marginLeft: 16 }}>
-            {[["fr", "FR"], ["en", "EN"], ["ar", "AR"]].map(([k, label]) => (
-              <button key={k} className={`lang-btn ${lang === k ? "active" : ""}`} onClick={() => setLang(k)}>{label}</button>
-            ))}
-          </div>
+          <button className="btn-sm" onClick={() => setDark(!dark)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 12px" }}>
+            <span style={{ fontSize: 14 }}>{dark ? "☀" : "☾"}</span>
+          </button>
         </div>
       </nav>
 
-      {/* HERO */}
+      {/* ═══ HERO ═══ */}
       <section id="hero" style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "120px 48px 80px", position: "relative", overflow: "hidden" }}>
-        <BlueprintGrid />
+        <BlueprintGrid dark={dark} />
         <div className="hero-grid" style={{ maxWidth: 1300, margin: "0 auto", width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center", position: "relative", zIndex: 2 }}>
           <div>
-            <div style={{ opacity: loaded ? 1 : 0, transform: loaded ? "none" : "translateY(20px)", transition: "all 0.8s 0.2s" }}>
+            <div style={{ opacity: loaded ? 1 : 0, transition: "all 0.8s 0.2s", transform: loaded ? "none" : "translateY(20px)" }}>
               <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 5, color: "var(--gold)", marginBottom: 24, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 24, height: 1, background: "var(--gold)" }} />
-                {t.heroSub}
+                <div style={{ width: 24, height: 1, background: "var(--gold)" }} />{t.heroSub}
               </div>
             </div>
-            <h1 style={{ fontFamily: isRtl ? "'Noto Sans Arabic', sans-serif" : "var(--serif)", fontSize: isRtl ? "clamp(32px,5vw,64px)" : "clamp(40px,6.5vw,80px)", fontWeight: isRtl ? 700 : 300, lineHeight: 1.1, letterSpacing: isRtl ? 0 : -2, color: "var(--navy)", opacity: loaded ? 1 : 0, transform: loaded ? "none" : "translateY(30px)", transition: "all 1s 0.4s" }}>
-              {t.heroTitle1}<br /><span style={{ fontWeight: isRtl ? 700 : 600, fontStyle: isRtl ? "normal" : "italic" }}>{t.heroTitle2}</span> {t.heroTitle3}<br /><span style={{ color: "var(--gold)", fontWeight: isRtl ? 700 : 600 }}>{t.heroTitle4}</span>
+            <h1 style={{ fontFamily: df, fontSize: isRtl ? "clamp(32px,5vw,64px)" : "clamp(40px,6.5vw,80px)", fontWeight: isRtl ? 700 : 300, lineHeight: 1.1, letterSpacing: isRtl ? 0 : -2, color: "var(--fg)", opacity: loaded ? 1 : 0, transform: loaded ? "none" : "translateY(30px)", transition: "all 1s 0.4s" }}>
+              {t.heroTitle[0]}<br /><span style={{ fontWeight: isRtl ? 700 : 600, fontStyle: isRtl ? "normal" : "italic" }}>{t.heroTitle[1]}</span> {t.heroTitle[2]}<br /><span style={{ color: "var(--gold)", fontWeight: isRtl ? 700 : 600 }}>{t.heroTitle[3]}</span>
             </h1>
-            <p style={{ fontFamily: isRtl ? "'Noto Sans Arabic', sans-serif" : "var(--sans)", fontSize: 16, lineHeight: 1.9, color: "var(--slate)", maxWidth: 460, marginTop: 32, fontWeight: 300, opacity: loaded ? 1 : 0, transform: loaded ? "none" : "translateY(20px)", transition: "all 0.8s 0.7s" }}>{t.heroDesc}</p>
-            <div style={{ display: "flex", gap: 24, marginTop: 48, opacity: loaded ? 1 : 0, transform: loaded ? "none" : "translateY(20px)", transition: "all 0.8s 0.9s" }}>
-              <a href="#s0" style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "16px 36px", background: "var(--navy)", color: "var(--cream)", textDecoration: "none", fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", transition: "all 0.4s", borderRadius: 1 }}>{t.btnDiscover} →</a>
-              <a href="#s4" style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "16px 36px", border: "1px solid rgba(13,27,42,0.15)", color: "var(--navy)", textDecoration: "none", fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", transition: "all 0.4s", borderRadius: 1, background: "transparent" }}>{t.btnContact}</a>
+            <p style={{ fontFamily: bf, fontSize: 16, lineHeight: 1.9, color: "var(--muted)", maxWidth: 460, marginTop: 32, fontWeight: 300, opacity: loaded ? 1 : 0, transition: "all 0.8s 0.7s" }}>{t.heroDesc}</p>
+            <div style={{ display: "flex", gap: 24, marginTop: 48, opacity: loaded ? 1 : 0, transition: "all 0.8s 0.9s" }}>
+              <a href="#s0" style={{ padding: "16px 36px", background: dark ? "var(--gold)" : "var(--navy)", color: dark ? "#0a0e1a" : "#FAF7F2", textDecoration: "none", fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", borderRadius: 1, transition: "all 0.3s" }}>{t.btnDiscover} →</a>
+              <a href="#s4" style={{ padding: "16px 36px", border: `1px solid ${theme.cardBorder}`, color: "var(--fg)", textDecoration: "none", fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", borderRadius: 1, background: "transparent", transition: "all 0.3s" }}>{t.btnContact}</a>
             </div>
           </div>
           <div className="hero-right" style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <TurbineBlueprint size={380} style={{ opacity: loaded ? 0.5 : 0, transition: "opacity 1.5s 0.5s", animation: "rotateSlow 120s linear infinite" }} />
-            <AircraftSVG style={{ position: "absolute", width: "90%", color: "var(--navy)", opacity: loaded ? 0.15 : 0, transition: "opacity 1.2s 0.8s", animation: "float 8s ease-in-out infinite" }} />
+            <TurbineBlueprint size={380} style={{ opacity: loaded ? 0.6 : 0, transition: "opacity 1.5s 0.5s", animation: "rotateSlow 120s linear infinite" }} color="var(--gold)" />
+            <AircraftSVG style={{ position: "absolute", width: "90%", color: dark ? "var(--gold)" : "var(--navy)", opacity: loaded ? 0.35 : 0, transition: "opacity 1.2s 0.8s", animation: "float 8s ease-in-out infinite" }} color={dark ? "var(--gold)" : "var(--navy)"} opacity={0.4} />
           </div>
         </div>
       </section>
 
-      {/* ABOUT */}
-      <section id="s0" style={{ padding: "120px 48px", background: "var(--ivory)", position: "relative" }}>
-        <BlueprintGrid />
+      {/* ═══ ABOUT ═══ */}
+      <section id="s0" style={{ padding: "120px 48px", background: theme.bg2, position: "relative" }}>
+        <BlueprintGrid dark={dark} />
         <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
-          <SectionHead number={t.aboutNum} title={t.aboutTitle} subtitle={t.aboutSub} />
+          <SectionHead number={t.aboutNum} title={t.aboutTitle} subtitle={t.aboutSub} dark={dark} />
           <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 80 }}>
-            <div>
-              <p style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--serif)", fontSize: 22, lineHeight: 1.8, color: "var(--navy)", fontWeight: 300, marginBottom: 32 }}>{t.aboutP1}</p>
-              <p style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 15, lineHeight: 2, color: "var(--slate)", fontWeight: 300 }}>{t.aboutP2}</p>
+            <FadeIn delay={0.1}>
+              <p style={{ fontFamily: df, fontSize: 22, lineHeight: 1.8, fontWeight: 300, marginBottom: 32 }}>{t.aboutP1}</p>
+              <p style={{ fontFamily: bf, fontSize: 15, lineHeight: 2, color: "var(--muted)", fontWeight: 300 }}>{t.aboutP2}</p>
               <div style={{ marginTop: 48 }}>
                 <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, color: "var(--gold)", textTransform: "uppercase", marginBottom: 16 }}>{t.eduLabel}</div>
                 {t.edu.map((e, i) => (
-                  <div key={i} style={{ display: "flex", gap: 24, padding: "20px 0", borderBottom: "1px solid rgba(13,27,42,0.05)" }}>
+                  <div key={i} style={{ display: "flex", gap: 24, padding: "20px 0", borderBottom: `1px solid ${theme.cardBorder}` }}>
                     <span style={{ fontFamily: "var(--mono)", fontSize: 12, color: "var(--gold)", letterSpacing: 2, minWidth: 50 }}>{e.year}</span>
-                    <div>
-                      <div style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 15, fontWeight: 500, color: "var(--navy)" }}>{e.school}</div>
-                      <div style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 13, color: "var(--slate)", marginTop: 2 }}>{e.diploma} {e.note && <span style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--gold)", letterSpacing: 1 }}>— {e.note}</span>}</div>
-                    </div>
+                    <div><div style={{ fontFamily: bf, fontSize: 15, fontWeight: 500 }}>{e.school}</div><div style={{ fontFamily: bf, fontSize: 13, color: "var(--muted)", marginTop: 2 }}>{e.diploma} {e.note && <span style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--gold)" }}>— {e.note}</span>}</div></div>
                   </div>
                 ))}
               </div>
-            </div>
-            <div>
-              <div style={{ padding: 32, border: "1px solid rgba(13,27,42,0.06)", marginBottom: 24, background: "var(--cream)", borderRadius: 2 }}>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <div style={{ padding: 32, border: `1px solid ${theme.cardBorder}`, marginBottom: 24, background: theme.bg, borderRadius: 2 }}>
                 <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, color: "var(--gold)", textTransform: "uppercase", marginBottom: 24 }}>{t.langLabel}</div>
                 {t.langs.map((l, i) => (
                   <div key={i} style={{ marginBottom: 20 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                      <span style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 14, fontWeight: 500 }}>{l.lang}</span>
-                      <span style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--slate)", letterSpacing: 1 }}>{l.level}</span>
-                    </div>
-                    <div style={{ height: 2, background: "rgba(13,27,42,0.06)", borderRadius: 1 }}><div style={{ height: "100%", width: `${l.pct}%`, background: "linear-gradient(90deg, var(--gold), var(--copper))", borderRadius: 1 }} /></div>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}><span style={{ fontFamily: bf, fontSize: 14, fontWeight: 500 }}>{l.lang}</span><span style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--muted)" }}>{l.level}</span></div>
+                    <div style={{ height: 2, background: theme.cardBorder, borderRadius: 1 }}><div style={{ height: "100%", width: `${l.pct}%`, background: "linear-gradient(90deg, var(--gold), #C17F59)", borderRadius: 1, transition: "width 1s" }} /></div>
                   </div>
                 ))}
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                {[{ n: "5+", l: t.statsYears }, { n: "13", l: t.statsProjects }, { n: "3", l: t.statsLangs }, { n: "8", l: t.statsTeam }].map((s, i) => (
-                  <div key={i} style={{ padding: 24, border: "1px solid rgba(13,27,42,0.06)", textAlign: "center", background: "var(--cream)", borderRadius: 2 }}>
+                {t.stats.map((s, i) => (
+                  <div key={i} style={{ padding: 24, border: `1px solid ${theme.cardBorder}`, textAlign: "center", background: theme.bg, borderRadius: 2 }}>
                     <div style={{ fontFamily: "var(--serif)", fontSize: 28, fontWeight: 600, color: "var(--gold)" }}>{s.n}</div>
-                    <div style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: 2, color: "var(--slate)", marginTop: 4, textTransform: "uppercase" }}>{s.l}</div>
+                    <div style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: 2, color: "var(--muted)", marginTop: 4, textTransform: "uppercase" }}>{s.l}</div>
                   </div>
                 ))}
               </div>
-            </div>
+            </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* EXPERIENCE */}
+      {/* ═══ EXPERIENCE ═══ */}
       <section id="s1" style={{ padding: "120px 48px", position: "relative" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <SectionHead number={t.expNum} title={t.expTitle} subtitle={t.expSub} />
+          <SectionHead number={t.expNum} title={t.expTitle} subtitle={t.expSub} dark={dark} />
           <div className="exp-grid" style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 0 }}>
-            <div className="exp-sidebar" style={{ borderRight: isRtl ? "none" : "1px solid rgba(13,27,42,0.06)", borderLeft: isRtl ? "1px solid rgba(13,27,42,0.06)" : "none" }}>
+            <div className="exp-sidebar" style={{ borderRight: isRtl ? "none" : `1px solid ${theme.cardBorder}`, borderLeft: isRtl ? `1px solid ${theme.cardBorder}` : "none" }}>
               {t.experiences.map((exp, i) => (
-                <button key={i} className={`exp-tab ${activeExp === i ? "active" : ""} ${isRtl ? "exp-tab-rtl" : ""}`} onClick={() => setActiveExp(i)}>
+                <button key={i} className={`exp-tab ${activeExp === i ? "active" : ""}`} onClick={() => setActiveExp(i)}>
                   <div style={{ fontSize: 10, color: "var(--gold)", marginBottom: 4 }}>{exp.year}</div>
-                  <div style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 13, fontWeight: activeExp === i ? 500 : 400 }}>{exp.company}</div>
+                  <div style={{ fontFamily: bf, fontSize: 13, fontWeight: activeExp === i ? 500 : 400 }}>{exp.company}</div>
                 </button>
               ))}
             </div>
@@ -566,14 +503,14 @@ export default function Portfolio() {
                     <div style={{ width: 8, height: 8, borderRadius: "50%", border: "2px solid var(--gold)" }} />
                     <span style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, color: "var(--gold)" }}>{exp.location.toUpperCase()}</span>
                   </div>
-                  <h3 style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--serif)", fontSize: isRtl ? 26 : 32, fontWeight: isRtl ? 600 : 400, color: "var(--navy)", marginBottom: 4, letterSpacing: isRtl ? 0 : -0.5 }}>{exp.company}</h3>
-                  <div style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 16, color: "var(--copper)", fontWeight: 400, marginBottom: 4 }}>{exp.role}</div>
-                  <div style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--slate-light)", letterSpacing: 1, marginBottom: 32 }}>{exp.sub}</div>
-                  <div style={{ borderTop: "1px solid rgba(13,27,42,0.05)", paddingTop: 24 }}>
+                  <h3 style={{ fontFamily: df, fontSize: isRtl ? 26 : 32, fontWeight: isRtl ? 600 : 400, marginBottom: 4 }}>{exp.company}</h3>
+                  <div style={{ fontFamily: bf, fontSize: 16, color: "#C17F59", marginBottom: 4 }}>{exp.role}</div>
+                  <div style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--muted)", letterSpacing: 1, marginBottom: 32 }}>{exp.sub}</div>
+                  <div style={{ borderTop: `1px solid ${theme.cardBorder}`, paddingTop: 24 }}>
                     {exp.bullets.map((b, j) => (
-                      <div key={j} style={{ display: "flex", gap: 16, marginBottom: 16, alignItems: "flex-start" }}>
+                      <div key={j} style={{ display: "flex", gap: 16, marginBottom: 14 }}>
                         <div style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--gold)", marginTop: 8, flexShrink: 0 }} />
-                        <p style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 14, lineHeight: 1.8, color: "var(--slate)", fontWeight: 300 }}>{b}</p>
+                        <p style={{ fontFamily: bf, fontSize: 14, lineHeight: 1.8, color: "var(--muted)", fontWeight: 300 }}>{b}</p>
                       </div>
                     ))}
                   </div>
@@ -581,112 +518,88 @@ export default function Portfolio() {
               ))}
             </div>
           </div>
-          {/* Mobile: show all experiences stacked */}
-          <div style={{ display: "none" }} className="exp-mobile">
-            {t.experiences.map((exp, i) => (
-              <div key={i} style={{ marginBottom: 40, padding: 24, border: "1px solid rgba(13,27,42,0.06)", borderRadius: 2 }}>
-                <div style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--gold)", letterSpacing: 2, marginBottom: 8 }}>{exp.year} · {exp.location}</div>
-                <h3 style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--serif)", fontSize: 22, fontWeight: 400, marginBottom: 4 }}>{exp.company}</h3>
-                <div style={{ fontSize: 14, color: "var(--copper)", marginBottom: 16 }}>{exp.role}</div>
-                {exp.bullets.map((b, j) => (
-                  <div key={j} style={{ display: "flex", gap: 12, marginBottom: 10 }}>
-                    <div style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--gold)", marginTop: 8, flexShrink: 0 }} />
-                    <p style={{ fontSize: 13, lineHeight: 1.7, color: "var(--slate)", fontWeight: 300 }}>{b}</p>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* PROJECTS */}
-      <section id="s2" style={{ padding: "120px 48px", background: "var(--navy)", color: "var(--cream)", position: "relative", overflow: "hidden" }}>
-        <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.04, pointerEvents: "none" }}><defs><pattern id="bpD" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="#fff" strokeWidth="0.3" /></pattern></defs><rect width="100%" height="100%" fill="url(#bpD)" /></svg>
-        <TurbineBlueprint size={500} style={{ position: "absolute", right: -150, top: -150, opacity: 0.06, animation: "rotateSlow 200s linear infinite" }} />
+      {/* ═══ PROJECTS ═══ */}
+      <section id="s2" style={{ padding: "120px 48px", background: theme.projBg, color: dark ? theme.fg : "#FAF7F2", position: "relative", overflow: "hidden" }}>
+        <TurbineBlueprint size={500} style={{ position: "absolute", right: -150, top: -150, opacity: 0.08, animation: "rotateSlow 200s linear infinite" }} color={dark ? "var(--gold)" : "rgba(255,255,255,0.3)"} />
         <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
-          <div style={{ marginBottom: 64 }}>
+          <FadeIn style={{ marginBottom: 64 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}><span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--gold)", letterSpacing: 3 }}>{t.projNum}</span><div style={{ width: 40, height: 1, background: "var(--gold)", opacity: 0.4 }} /></div>
-            <h2 style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--serif)", fontSize: "clamp(32px,5vw,56px)", fontWeight: isRtl ? 600 : 300, color: "var(--cream)", letterSpacing: isRtl ? 0 : -1 }}>{t.projTitle}</h2>
-            <p style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--slate-light)", letterSpacing: 3, marginTop: 12, textTransform: "uppercase" }}>{t.projSub}</p>
-          </div>
+            <h2 style={{ fontFamily: df, fontSize: "clamp(32px,5vw,56px)", fontWeight: isRtl ? 600 : 300, color: dark ? theme.fg : "#FAF7F2" }}>{t.projTitle}</h2>
+            <p style={{ fontFamily: "var(--mono)", fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: 3, marginTop: 12, textTransform: "uppercase" }}>{t.projSub}</p>
+          </FadeIn>
           <div className="proj-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
             {visibleProjects.map((p, i) => (
-              <div key={i} onMouseEnter={() => setHoveredProj(i)} onMouseLeave={() => setHoveredProj(null)} style={{ padding: 32, border: "1px solid rgba(255,255,255,0.06)", background: hoveredProj === i ? "rgba(255,255,255,0.03)" : "transparent", transition: "all 0.5s", cursor: "default", borderRadius: 2, transform: hoveredProj === i ? "translateY(-4px)" : "none", position: "relative", overflow: "hidden" }}>
-                {hoveredProj === i && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, transparent, var(--gold), transparent)" }} />}
-                <div style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: 3, color: "var(--gold)", marginBottom: 16 }}>{p.cat}</div>
-                <h3 style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--serif)", fontSize: 22, fontWeight: isRtl ? 600 : 400, marginBottom: 12, color: hoveredProj === i ? "var(--gold-light)" : "var(--cream)", transition: "color 0.4s" }}>{p.name}</h3>
-                <p style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 13, lineHeight: 1.8, color: "var(--slate-light)", fontWeight: 300, marginBottom: 20 }}>{p.desc}</p>
-                <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 1, color: "var(--slate)", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 16 }}>{p.tech}</div>
-              </div>
+              <FadeIn key={i} delay={i * 0.05}>
+                <div onMouseEnter={() => setHoveredProj(i)} onMouseLeave={() => setHoveredProj(null)} style={{ padding: 32, border: "1px solid rgba(255,255,255,0.06)", background: hoveredProj === i ? "rgba(255,255,255,0.04)" : "transparent", transition: "all 0.5s", cursor: "default", borderRadius: 2, transform: hoveredProj === i ? "translateY(-4px)" : "none", position: "relative", overflow: "hidden", height: "100%" }}>
+                  {hoveredProj === i && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, transparent, var(--gold), transparent)" }} />}
+                  <div style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: 3, color: "var(--gold)", marginBottom: 16 }}>{p.cat}</div>
+                  <h3 style={{ fontFamily: df, fontSize: 20, fontWeight: isRtl ? 600 : 400, marginBottom: 12, color: hoveredProj === i ? "var(--gold)" : (dark ? theme.fg : "#FAF7F2"), transition: "color 0.4s" }}>{p.name}</h3>
+                  <p style={{ fontFamily: bf, fontSize: 13, lineHeight: 1.8, color: "rgba(255,255,255,0.5)", fontWeight: 300, marginBottom: 20 }}>{p.desc}</p>
+                  <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 1, color: "rgba(255,255,255,0.3)", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 16 }}>{p.tech}</div>
+                </div>
+              </FadeIn>
             ))}
           </div>
           {t.projects.length > 6 && (
             <div style={{ textAlign: "center", marginTop: 40 }}>
-              <button onClick={() => setShowAllProj(!showAllProj)} style={{ padding: "14px 36px", border: "1px solid rgba(255,255,255,0.15)", background: "transparent", color: "var(--cream)", fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", cursor: "pointer", transition: "all 0.4s", borderRadius: 1 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--gold)"; e.currentTarget.style.color = "var(--gold)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; e.currentTarget.style.color = "var(--cream)"; }}>
-                {showAllProj ? "−" : "+"} {showAllProj ? (lang === "ar" ? "أقل" : lang === "en" ? "Show less" : "Voir moins") : (lang === "ar" ? "عرض الكل" : lang === "en" ? "Show all projects" : "Voir tous les projets")}
-              </button>
+              <button onClick={() => setShowAllProj(!showAllProj)} style={{ padding: "14px 36px", border: "1px solid rgba(255,255,255,0.15)", background: "transparent", color: dark ? theme.fg : "#FAF7F2", fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", cursor: "pointer", transition: "all 0.4s", borderRadius: 1 }}>{showAllProj ? `− ${t.showLess}` : `+ ${t.showAll}`}</button>
             </div>
           )}
         </div>
       </section>
 
-      {/* SKILLS */}
-      <section id="s3" style={{ padding: "120px 48px", background: "var(--ivory)", position: "relative" }}>
-        <BlueprintGrid />
+      {/* ═══ SKILLS ═══ */}
+      <section id="s3" style={{ padding: "120px 48px", background: theme.bg2, position: "relative" }}>
+        <BlueprintGrid dark={dark} />
         <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
-          <SectionHead number={t.skillsNum} title={t.skillsTitle} subtitle={t.skillsSub} />
+          <SectionHead number={t.skillsNum} title={t.skillsTitle} subtitle={t.skillsSub} dark={dark} />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 40 }}>
-            {Object.entries(t.skillCats).map(([cat, items], i) => {
-              const [ref, vis] = useInView(0.1);
-              return (
-                <div key={cat} ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: `all 0.7s ${i * 0.1}s cubic-bezier(0.22,1,0.36,1)` }}>
-                  <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, color: "var(--gold)", textTransform: "uppercase", marginBottom: 20, display: "flex", alignItems: "center", gap: 12 }}>
-                    <div style={{ width: 16, height: 1, background: "var(--gold)" }} />{cat}
-                  </div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                    {items.map(s => <span key={s} className="skill-chip">{s}</span>)}
-                  </div>
+            {t.skillCats.map((group, i) => (
+              <FadeIn key={i} delay={i * 0.08}>
+                <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, color: "var(--gold)", textTransform: "uppercase", marginBottom: 20, display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{ width: 16, height: 1, background: "var(--gold)" }} />{group.cat}
                 </div>
-              );
-            })}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  {group.items.map(s => <span key={s} className="chip">{s}</span>)}
+                </div>
+              </FadeIn>
+            ))}
           </div>
-          {/* Coursework */}
-          <div style={{ marginTop: 64, padding: 32, border: "1px solid rgba(13,27,42,0.06)", background: "var(--cream)", borderRadius: 2 }}>
-            <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, color: "var(--gold)", textTransform: "uppercase", marginBottom: 16 }}>{t.courseworkTitle}</div>
-            <p style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 14, lineHeight: 1.9, color: "var(--slate)", fontWeight: 300 }}>{t.coursework}</p>
-          </div>
+          <FadeIn delay={0.3}>
+            <div style={{ marginTop: 64, padding: 32, border: `1px solid ${theme.cardBorder}`, background: theme.bg, borderRadius: 2 }}>
+              <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 3, color: "var(--gold)", textTransform: "uppercase", marginBottom: 16 }}>{t.courseworkLabel}</div>
+              <p style={{ fontFamily: bf, fontSize: 14, lineHeight: 1.9, color: "var(--muted)", fontWeight: 300 }}>{t.coursework}</p>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* EXTRA */}
+      {/* ═══ EXTRAS ═══ */}
       <section style={{ padding: "120px 48px", position: "relative" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <SectionHead number={t.extraNum} title={t.extraTitle} subtitle={t.extraSub} />
-          <div style={{ display: "grid", gap: 24 }}>
-            {t.extras.map((e, i) => {
-              const [ref, vis] = useInView();
-              return (
-                <div key={i} ref={ref} style={{ padding: 32, border: "1px solid rgba(13,27,42,0.06)", background: "var(--ivory)", borderRadius: 2, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(20px)", transition: `all 0.7s ${i * 0.15}s` }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
-                    <h3 style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--serif)", fontSize: 20, fontWeight: isRtl ? 600 : 400 }}>{e.title}</h3>
-                    <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--gold)", letterSpacing: 2 }}>{e.year}</span>
-                  </div>
-                  <p style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 14, lineHeight: 1.8, color: "var(--slate)", fontWeight: 300 }}>{e.desc}</p>
+          <SectionHead number={t.extraNum} title={t.extraTitle} subtitle={t.extraSub} dark={dark} />
+          {t.extras.map((e, i) => (
+            <FadeIn key={i} delay={i * 0.15}>
+              <div style={{ padding: 32, border: `1px solid ${theme.cardBorder}`, background: theme.bg2, borderRadius: 2, marginBottom: 24 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
+                  <h3 style={{ fontFamily: df, fontSize: 20, fontWeight: isRtl ? 600 : 400 }}>{e.title}</h3>
+                  <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--gold)", letterSpacing: 2 }}>{e.year}</span>
                 </div>
-              );
-            })}
-          </div>
+                <p style={{ fontFamily: bf, fontSize: 14, lineHeight: 1.8, color: "var(--muted)", fontWeight: 300 }}>{e.desc}</p>
+              </div>
+            </FadeIn>
+          ))}
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="s4" style={{ padding: "120px 48px", background: "var(--ivory)", position: "relative" }}>
+      {/* ═══ CONTACT ═══ */}
+      <section id="s4" style={{ padding: "120px 48px", background: theme.bg2, position: "relative" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
-          <SectionHead number={t.contactNum} title={<span>{t.contactTitle}<br /><span style={{ fontStyle: isRtl ? "normal" : "italic", color: "var(--gold)" }}>{t.contactTitle2}</span></span>} />
-          <p style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--sans)", fontSize: 16, lineHeight: 2, color: "var(--slate)", fontWeight: 300, maxWidth: 500, margin: "0 auto 48px" }}>{t.contactDesc}</p>
+          <SectionHead number={t.contactNum} title={<span>{t.contactTitle}<br /><span style={{ fontStyle: isRtl ? "normal" : "italic", color: "var(--gold)" }}>{t.contactTitle2}</span></span>} dark={dark} />
+          <p style={{ fontFamily: bf, fontSize: 16, lineHeight: 2, color: "var(--muted)", fontWeight: 300, maxWidth: 500, margin: "0 auto 48px" }}>{t.contactDesc}</p>
           <div className="contact-row" style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>
             {[
               { label: t.contactLabels.email, value: "tadrosjustine21@gmail.com", href: "mailto:tadrosjustine21@gmail.com" },
@@ -694,24 +607,27 @@ export default function Portfolio() {
               { label: t.contactLabels.github, value: "JustineTdrs", href: "https://github.com/JustineTdrs" },
               { label: t.contactLabels.phone, value: "+33 7 68 98 59 03", href: "tel:+33768985903" },
             ].map((c, i) => (
-              <a key={i} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" style={{ padding: "28px 32px", border: "1px solid rgba(13,27,42,0.06)", textDecoration: "none", minWidth: 200, transition: "all 0.4s", background: "var(--cream)", textAlign: "center", borderRadius: 2 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--gold)"; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 12px 40px rgba(13,27,42,0.06)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(13,27,42,0.06)"; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}>
+              <a key={i} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" style={{ padding: "28px 32px", border: `1px solid ${theme.cardBorder}`, textDecoration: "none", minWidth: 200, transition: "all 0.4s", background: theme.bg, textAlign: "center", borderRadius: 2 }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--gold)"; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 12px 40px ${dark ? "rgba(0,0,0,0.3)" : "rgba(13,27,42,0.06)"}` }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = theme.cardBorder; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none" }}>
                 <div style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: 3, color: "var(--gold)", textTransform: "uppercase", marginBottom: 10 }}>{c.label}</div>
-                <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "var(--navy)", fontWeight: 400 }}>{c.value}</div>
+                <div style={{ fontFamily: "var(--sans)", fontSize: 13, color: "var(--fg)", fontWeight: 400 }}>{c.value}</div>
               </a>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ padding: "40px 48px", borderTop: "1px solid rgba(13,27,42,0.06)", background: "var(--ivory)" }}>
+      {/* ═══ FOOTER ═══ */}
+      <footer style={{ padding: "40px 48px", borderTop: `1px solid ${theme.cardBorder}`, background: theme.bg2 }}>
         <div className="footer-inner" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 2, color: "var(--slate-light)" }}>© 2025 JUSTINE TADROS</span>
-          <span style={{ fontFamily: isRtl ? "'Noto Sans Arabic'" : "var(--serif)", fontSize: 13, color: "var(--slate)", fontStyle: isRtl ? "normal" : "italic" }}>{t.footer} ✈</span>
+          <span style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: 2, color: "var(--muted)" }}>© 2025 JUSTINE TADROS</span>
+          <span style={{ fontFamily: df, fontSize: 13, color: "var(--muted)", fontStyle: isRtl ? "normal" : "italic" }}>{t.footer} ✈</span>
         </div>
       </footer>
+
+      {/* ═══ CHATBOT ═══ */}
+      <Chatbot t={t} dark={dark} />
     </div>
   );
 }
