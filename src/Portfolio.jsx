@@ -7,7 +7,7 @@ const T = {
     nav: ["À propos", "Parcours", "Projets", "Compétences", "Contact"],
     heroSub: "Développeuse Full Stack · Safran Aircraft Engines",
     heroTitle: ["L'art du", "code", "rencontre", "l'aéronautique"],
-    heroDesc: "Développeuse Full Stack chez Safran Aircraft Engines, je conçois des solutions digitales à l'intersection de la technologie et de l'industrie aéronautique.",
+    heroDesc: "Actuellement en Support methode de Plannification chez Safran Aircraft Engines, je conçois des solutions digitales à l'intersection de la technologie et de l'industrie aéronautique.",
     btnDiscover: "Découvrir", btnContact: "Contact",
     aboutNum: "01", aboutTitle: "À propos", aboutSub: "Profil · Formation · Langues",
     aboutP1: "De Paris au Caire, en passant par Québec — un parcours international forgé par la curiosité technique et la passion de l'industrie.",
