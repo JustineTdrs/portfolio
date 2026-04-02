@@ -83,9 +83,9 @@ const T = {
   en: {
     dir: "ltr",
     nav: ["About", "Experience", "Projects", "Skills", "Contact"],
-    heroSub: "Analyst Support Planification · Safran Aircraft Engines",
+    heroSub: "Planning Support Analyst  · Safran Aircraft Engines",
     heroTitle: ["Where", "code", "meets", "aerospace"],
-    heroDesc: "Analyst Support Planification Safran Aircraft Engines, I design digital solutions at the intersection of technology and the aerospace industry.",
+    heroDesc: "Planning Support Analyst Safran Aircraft Engines, I design digital solutions at the intersection of technology and the aerospace industry.",
     btnDiscover: "Discover", btnContact: "Contact",
     aboutNum: "01", aboutTitle: "About", aboutSub: "Profile · Education · Languages",
     aboutP1: "From Paris to Cairo, through Quebec — an international journey shaped by technical curiosity and a passion for industry.",
