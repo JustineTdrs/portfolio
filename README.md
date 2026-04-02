@@ -1,85 +1,79 @@
-# ✈ Portfolio Justine Tadros
+# ✈️ Portfolio — Justine Tadros
 
-Portfolio personnel avec thème aéronautique, construit avec React + Vite.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18.2-61DAFB?style=flat-square&logo=react&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vite-5.4-646CFF?style=flat-square&logo=vite&logoColor=white" />
+  <img src="https://img.shields.io/badge/Deploy-GitHub_Pages-181717?style=flat-square&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Theme-Aéronautique-B8860B?style=flat-square" />
+</p>
 
----
+<p align="center">
+  <em>Portfolio personnel avec une esthétique inspirée de l'ingénierie aéronautique — plans techniques, turbines blueprint et typographie éditoriale de luxe.</em>
+</p>
 
-## 🚀 Déployer sur GitHub Pages — Guide pas à pas
-
-### Étape 1 : Créer le repo GitHub
-
-1. Va sur [github.com/new](https://github.com/new)
-2. Nom du repo : `portfolio` (ou ce que tu veux)
-3. Laisse-le **Public**
-4. Ne coche rien (pas de README, pas de .gitignore)
-5. Clique **Create repository**
-
-### Étape 2 : Modifier le base path
-
-Ouvre le fichier `vite.config.js` et remplace `portfolio` par le **nom exact de ton repo** :
-
-```js
-base: '/portfolio/',  // ← le nom de ton repo ici
-```
-
-> Si ton repo s'appelle `mon-site`, mets `/mon-site/`
-
-### Étape 3 : Envoyer le code sur GitHub
-
-Ouvre un terminal dans le dossier du projet et tape :
-
-```bash
-# Initialiser git
-git init
-git add .
-git commit -m "🚀 Premier déploiement du portfolio"
-
-# Connecter à ton repo (remplace l'URL par la tienne)
-git remote add origin https://github.com/JustineTdrs/portfolio.git
-
-# Envoyer le code
-git branch -M main
-git push -u origin main
-```
-
-### Étape 4 : Activer GitHub Pages
-
-1. Va dans ton repo sur GitHub
-2. Clique sur **Settings** (⚙️)
-3. Dans le menu à gauche, clique sur **Pages**
-4. Sous **Source**, sélectionne **GitHub Actions**
-5. C'est tout ! Le workflow se lance automatiquement
-
-### Étape 5 : Attendre le déploiement
-
-1. Va dans l'onglet **Actions** de ton repo
-2. Tu verras le workflow **"Deploy to GitHub Pages"** en cours
-3. Attends 1-2 minutes qu'il passe au vert ✅
-
-### Étape 6 : Voir ton site ! 🎉
-
-Ton portfolio est maintenant en ligne à :
-
-```
-https://JustineTdrs.github.io/portfolio/
-```
-
-(Remplace `portfolio` par le nom de ton repo)
+<p align="center">
+  <a href="https://JustineTdrs.github.io/portfolio/">🌐 Voir le site en ligne</a> · 
+  <a href="https://www.linkedin.com/in/justinetadros/">LinkedIn</a> · 
+  <a href="mailto:tadrosjustine21@gmail.com">Contact</a>
+</p>
 
 ---
 
-## 💻 Développement local
+## 🖼️ Aperçu
+
+Le portfolio adopte un design **luxe éditorial aéronautique** :
+
+- **Palette** — Ivoire, bleu marine profond et accents dorés
+- **Typographie** — Playfair Display (titres), DM Sans (corps), IBM Plex Mono (détails techniques)
+- **Illustrations SVG** — Silhouette d'avion avec cotations techniques, turbine blueprint en rotation lente
+- **Grille blueprint** — Arrière-plan subtil rappelant le papier millimétré d'ingénieur
+- **Animations** — Entrées au scroll, transitions fluides, micro-interactions sur hover
+- **Responsive** — Adapté mobile, tablette et desktop
+
+---
+
+## 🛠️ Stack
+
+| Outil | Usage |
+|-------|-------|
+| **React 18** | Composants et hooks |
+| **Vite 5** | Build rapide et HMR |
+| **CSS-in-JS** | Styles inline avec variables CSS |
+| **SVG** | Illustrations aéronautiques dessinées à la main |
+| **GitHub Actions** | Déploiement automatique sur GitHub Pages |
+
+---
+
+## 🚀 Installation et lancement
+
+### Prérequis
+
+- [Node.js](https://nodejs.org/) v18+
+- npm ou yarn
+
+### En local
 
 ```bash
+# Cloner le repo
+git clone https://github.com/JustineTdrs/portfolio.git
+cd portfolio
+
 # Installer les dépendances
 npm install
 
-# Lancer en local
+# Lancer le serveur de développement
 npm run dev
+```
 
-# Construire pour la production
+Le site est accessible à `http://localhost:5173`
+
+### Build de production
+
+```bash
 npm run build
 ```
+
+Les fichiers sont générés dans le dossier `dist/`.
 
 ---
 
@@ -87,11 +81,66 @@ npm run build
 
 ```
 portfolio/
-├── .github/workflows/deploy.yml   ← Déploiement automatique
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # CI/CD GitHub Pages
 ├── src/
-│   ├── main.jsx                   ← Point d'entrée
-│   └── Portfolio.jsx              ← Le portfolio complet
-├── index.html
+│   ├── main.jsx                # Point d'entrée React
+│   └── Portfolio.jsx           # Composant principal (tout-en-un)
+├── index.html                  # HTML racine
 ├── package.json
-└── vite.config.js                 ← ⚠️ Modifier le "base" ici
+├── vite.config.js              # Config Vite + base path
+└── README.md
 ```
+
+---
+
+## 🌐 Déploiement
+
+Le site se déploie automatiquement sur **GitHub Pages** à chaque push sur `main` grâce au workflow GitHub Actions inclus.
+
+### Configuration
+
+1. Dans `vite.config.js`, vérifier que le `base` correspond au nom du repo :
+   ```js
+   base: '/portfolio/',
+   ```
+
+2. Dans GitHub → **Settings** → **Pages** → Source : **GitHub Actions**
+
+3. Chaque `git push` sur `main` déclenche un nouveau déploiement automatique
+
+---
+
+## ✏️ Personnalisation
+
+Le portfolio est contenu dans un seul fichier `src/Portfolio.jsx`. Les données sont facilement modifiables en haut du fichier :
+
+- **`EXP`** — Expériences professionnelles
+- **`PROJECTS`** — Projets réalisés
+- **`SKILLS`** — Compétences techniques
+
+Les variables CSS sont définies dans le composant via `:root` :
+
+```css
+--cream: #F5F0E8;      /* Fond principal */
+--navy: #0D1B2A;       /* Texte et accents foncés */
+--gold: #B8860B;       /* Accents dorés */
+--copper: #C17F59;     /* Accents secondaires */
+--slate: #6B7B8D;      /* Texte secondaire */
+```
+
+---
+
+## 📬 Contact
+
+- **Email** — [tadrosjustine21@gmail.com](mailto:tadrosjustine21@gmail.com)
+- **LinkedIn** — [justinetadros](https://www.linkedin.com/in/justinetadros/)
+- **GitHub** — [JustineTdrs](https://github.com/JustineTdrs)
+- **Téléphone** — +33 7 68 98 59 03
+
+---
+
+<p align="center">
+  Fait avec ☕ et une passion pour l'aviation ✈️
+</p>
