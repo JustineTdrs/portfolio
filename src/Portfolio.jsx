@@ -364,6 +364,7 @@ export default function Portfolio() {
   const [activeExp, setActiveExp] = useState(0);
   const [hoveredProj, setHoveredProj] = useState(null);
   const [showAllProj, setShowAllProj] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const t = T[lang];
   const isRtl = t.dir === "rtl";
 
@@ -395,7 +396,8 @@ export default function Portfolio() {
         .exp-tab { font-family:var(--mono); font-size:12px; letter-spacing:2px; padding:16px 24px; cursor:pointer; border:none; background:none; color:var(--muted); position:relative; transition:all 0.4s; text-align:${isRtl?"right":"left"}; width:100%; } .exp-tab:hover{color:var(--fg)} .exp-tab.active{color:var(--fg)} .exp-tab.active::before{content:'';position:absolute;${isRtl?"right":"left"}:0;top:0;bottom:0;width:2px;background:var(--gold)}
         .btn-sm { padding:6px 14px; border:1px solid ${theme.cardBorder}; background:transparent; color:var(--muted); font-family:var(--mono); font-size:10px; letter-spacing:2px; cursor:pointer; transition:all 0.3s; border-radius:1px; } .btn-sm:hover{border-color:var(--gold);color:var(--gold)} .btn-sm.active{background:${dark?"var(--gold)":"var(--navy)"};color:${dark?"#0a0e1a":"#FAF7F2"};border-color:transparent}
         ::-webkit-scrollbar{width:6px} ::-webkit-scrollbar-track{background:${theme.bg}} ::-webkit-scrollbar-thumb{background:rgba(184,134,11,0.2)} ::-webkit-scrollbar-thumb:hover{background:rgba(184,134,11,0.4)}
-        @media(max-width:900px){.hero-grid{grid-template-columns:1fr!important;text-align:center}.hero-right{display:none!important}.exp-grid{grid-template-columns:1fr!important}.exp-sidebar{display:none!important}.proj-grid{grid-template-columns:1fr!important}.about-grid{grid-template-columns:1fr!important}.contact-row{flex-direction:column!important}.footer-inner{flex-direction:column!important;gap:16px!important;text-align:center!important}.desktop-nav{display:none!important}}
+        .exp-mobile{display:none}
+        @media(max-width:900px){.hero-grid{grid-template-columns:1fr!important;text-align:center}.hero-right{display:none!important}.exp-grid{display:none!important}.exp-mobile{display:block!important}.proj-grid{grid-template-columns:1fr!important}.about-grid{grid-template-columns:1fr!important}.contact-row{flex-direction:column!important}.footer-inner{flex-direction:column!important;gap:16px!important;text-align:center!important}.desktop-nav{display:none!important}.hamburger{display:flex!important}section{padding-left:20px!important;padding-right:20px!important}nav{padding-left:20px!important;padding-right:20px!important}}
       `}</style>
 
       {/* ═══ NAV ═══ */}
@@ -412,8 +414,24 @@ export default function Portfolio() {
           <button className="btn-sm" onClick={() => setDark(!dark)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 12px" }}>
             <span style={{ fontSize: 14 }}>{dark ? "☀" : "☾"}</span>
           </button>
+          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 8, zIndex: 300 }}>
+            <span style={{ width: 22, height: 1.5, background: "var(--gold)", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(4px,4px)" : "none" }} />
+            <span style={{ width: 22, height: 1.5, background: "var(--gold)", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ width: 22, height: 1.5, background: "var(--gold)", transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(4px,-4px)" : "none" }} />
+          </button>
         </div>
       </nav>
+
+      {menuOpen && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 150, background: dark ? "rgba(10,14,26,0.98)" : "rgba(245,240,232,0.98)", backdropFilter: "blur(20px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 32 }}>
+          {t.nav.map((s, i) => (
+            <a key={i} href={`#s${i}`} onClick={() => setMenuOpen(false)} style={{ fontFamily: "var(--mono)", fontSize: 14, letterSpacing: 5, color: "var(--fg)", textDecoration: "none", textTransform: "uppercase" }}>{s}</a>
+          ))}
+          <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+            {[["fr","FR"],["en","EN"],["ar","AR"]].map(([k,l]) => <button key={k} className={`btn-sm ${lang===k?"active":""}`} onClick={() => { setLang(k); setMenuOpen(false); }}>{l}</button>)}
+          </div>
+        </div>
+      )}
 
       {/* ═══ HERO ═══ */}
       <section id="hero" style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "120px 48px 80px", position: "relative", overflow: "hidden" }}>
@@ -517,6 +535,34 @@ export default function Portfolio() {
                 </div>
               ))}
             </div>
+          </div>
+          {/* Mobile: toutes les expériences empilées */}
+          <div className="exp-mobile">
+            {t.experiences.map((exp, i) => (
+              <FadeIn key={i} delay={i * 0.1}>
+                <div style={{ marginBottom: 28, padding: 24, border: `1px solid ${theme.cardBorder}`, background: theme.bg2, borderRadius: 2 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
+                    <div>
+                      <h3 style={{ fontFamily: df, fontSize: 20, fontWeight: isRtl ? 600 : 400, marginBottom: 4 }}>{exp.company}</h3>
+                      <div style={{ fontFamily: bf, fontSize: 14, color: "#C17F59" }}>{exp.role}</div>
+                    </div>
+                    <div style={{ textAlign: isRtl ? "left" : "right" }}>
+                      <div style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--gold)", letterSpacing: 2 }}>{exp.year}</div>
+                      <div style={{ fontFamily: "var(--mono)", fontSize: 9, color: "var(--muted)", letterSpacing: 1, marginTop: 2 }}>{exp.location}</div>
+                    </div>
+                  </div>
+                  <div style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--muted)", letterSpacing: 1, marginBottom: 14 }}>{exp.sub}</div>
+                  <div style={{ borderTop: `1px solid ${theme.cardBorder}`, paddingTop: 14 }}>
+                    {exp.bullets.map((b, j) => (
+                      <div key={j} style={{ display: "flex", gap: 12, marginBottom: 10 }}>
+                        <div style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--gold)", marginTop: 7, flexShrink: 0 }} />
+                        <p style={{ fontFamily: bf, fontSize: 13, lineHeight: 1.7, color: "var(--muted)", fontWeight: 300 }}>{b}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
           </div>
         </div>
       </section>
