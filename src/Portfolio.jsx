@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 
 /* ═══════ TRANSLATIONS ═══════ */
 const T = {
@@ -24,7 +24,7 @@ const T = {
       { lang: "Arabe (Dialecte Égyptien)", level: "Maternelle", pct: 100 },
       { lang: "Anglais", level: "Courant", pct: 90 },
     ],
-    stats: [{ n: "5+", l: "Années" }, { n: "14", l: "Projets" }, { n: "3", l: "Langues" }, { n: "8", l: "Équipiers" }],
+    stats: [{ n: "5+", l: "Années" }, { n: "15", l: "Projets" }, { n: "3", l: "Langues" }, { n: "8", l: "Équipiers" }],
     expNum: "02", expTitle: "Parcours", expSub: "Expérience professionnelle",
     experiences: [
       { year: "Présent", company: "EDF", role: "Alternante Innovation Stratégique", sub: "Direction DIPP · IA & Data", location: "La Défense, France", bullets: ["Conception d'un agent IA prospectif pour nourrir la réflexion stratégique de la direction.", "Animation de la veille innovation et préparation d'une newsletter dédiée, avec des pistes d'automatisation.", "Évaluation de solutions de start-ups, notamment sur les volets SI et sécurité.", "Mise en route d'un outil local d'anonymisation de documents."] },
@@ -36,14 +36,15 @@ const T = {
     ],
     projNum: "03", projTitle: "Projets", projSub: "Réalisations techniques",
     projects: [
-      { name: "Agent IA prospectif", cat: "IA · INNOVATION", desc: "Agent IA d'aide à la réflexion prospective, développé en alternance chez EDF.", tech: "IA · Innovation" },
+      { name: "Agent IA prospectif", cat: "IA · INNOVATION", desc: "Agent IA d'aide à la réflexion prospective, développé en alternance chez EDF.", tech: "IA · Innovation", demo: "agent" },
+      { name: "Anonymiseur de documents", cat: "OUTIL INTERNE", desc: "Mise en route d'un outil local qui masque les données personnelles d'un document.", tech: "Application locale", demo: "redact" },
       { name: "E-Commerce Laravel", cat: "FULL STACK", desc: "Site E-Commerce complet en HTML, CSS, JS avec Laravel.", tech: "Laravel · JS · CSS" },
-      { name: "TicketChainer", cat: "HACKATHON", desc: "Chef de projet, équipe de 8. FrontEnd, APIs, Docker, Symfony.", tech: "Docker · Symfony · APIs" },
+      { name: "TicketChainer", cat: "HACKATHON", desc: "Chef de projet, équipe de 8. FrontEnd, APIs, Docker, Symfony.", tech: "Docker · Symfony · APIs", demo: "ticket" },
       { name: "Application Météo", cat: "iOS", desc: "App météo native en Swift avec géolocalisation.", tech: "Swift · Xcode" },
       { name: "Clone Twitter", cat: "BACKEND", desc: "Réseau social complet en NodeJs.", tech: "Node.js · MongoDB" },
       { name: "Serveur Debian", cat: "DEVOPS", desc: "Serveur web from scratch avec Debian, VirtualBox, VMware.", tech: "Debian · Shell · VM" },
       { name: "Jeu RPG", cat: "GAME DEV", desc: "Interface graphique RPG complète en Java.", tech: "Java · Swing" },
-      { name: "Azure Cognitive", cat: "CLOUD · IA", desc: "Reconnaissance faciale avec Face API. Top 5 Microsoft Camp.", tech: "Azure · API" },
+      { name: "Azure Cognitive", cat: "CLOUD · IA", desc: "Reconnaissance faciale avec Face API. Top 5 Microsoft Camp.", tech: "Azure · API", demo: "azure" },
       { name: "App Android", cat: "MOBILE", desc: "Application Android Studio en Java.", tech: "Java · Android" },
       { name: "CRUD en C", cat: "ALGO", desc: "Structure de données modèle CRUD en C.", tech: "C" },
       { name: "Fullstack Java", cat: "FULL STACK", desc: "App backend + frontend Java AndroidStudio.", tech: "Java · Android" },
@@ -51,6 +52,7 @@ const T = {
       { name: "Bases MySQL", cat: "DATABASE", desc: "Création de bases de données avec MySQL.", tech: "MySQL" },
     ],
     showAll: "Voir tous les projets", showLess: "Voir moins",
+    seeDetail: "Voir le détail", demoLabel: "Voir la démo", fakeLabel: "Exemple fictif", anonymize: "Anonymiser", showOriginal: "Voir l'original",
     skillsNum: "04", skillsTitle: "Compétences", skillsSub: "Stack technique",
     skillCats: [
       { cat: "Langages", items: ["HTML/CSS/JS", "Python", "Node.js", "TypeScript", "Swift", "React Native", "Bootstrap", "Tailwind"] },
@@ -104,7 +106,7 @@ const T = {
       { lang: "Arabic (Egyptian)", level: "Native", pct: 100 },
       { lang: "English", level: "Fluent", pct: 90 },
     ],
-    stats: [{ n: "5+", l: "Years" }, { n: "14", l: "Projects" }, { n: "3", l: "Languages" }, { n: "8", l: "Teammates" }],
+    stats: [{ n: "5+", l: "Years" }, { n: "15", l: "Projects" }, { n: "3", l: "Languages" }, { n: "8", l: "Teammates" }],
     expNum: "02", expTitle: "Experience", expSub: "Professional experience",
     experiences: [
       { year: "Present", company: "EDF", role: "Strategic Innovation Work-Study", sub: "DIPP Directorate · AI & Data", location: "La Défense, France", bullets: ["Designing a forward-looking AI agent to support the directorate's strategic thinking.", "Running innovation watch and preparing a dedicated newsletter, with automation in mind.", "Assessing start-up solutions, particularly on IT and security aspects.", "Setting up a local document anonymization tool."] },
@@ -116,14 +118,15 @@ const T = {
     ],
     projNum: "03", projTitle: "Projects", projSub: "Technical achievements",
     projects: [
-      { name: "Forward-looking AI agent", cat: "AI · INNOVATION", desc: "AI agent supporting strategic foresight, built during my work-study at EDF.", tech: "AI · Innovation" },
+      { name: "Forward-looking AI agent", cat: "AI · INNOVATION", desc: "AI agent supporting strategic foresight, built during my work-study at EDF.", tech: "AI · Innovation", demo: "agent" },
+      { name: "Document anonymizer", cat: "INTERNAL TOOL", desc: "Setting up a local tool that masks personal data in a document.", tech: "Local application", demo: "redact" },
       { name: "E-Commerce Laravel", cat: "FULL STACK", desc: "Complete e-commerce site with HTML, CSS, JS and Laravel.", tech: "Laravel · JS · CSS" },
-      { name: "TicketChainer", cat: "HACKATHON", desc: "Project lead, team of 8. FrontEnd, APIs, Docker, Symfony.", tech: "Docker · Symfony · APIs" },
+      { name: "TicketChainer", cat: "HACKATHON", desc: "Project lead, team of 8. FrontEnd, APIs, Docker, Symfony.", tech: "Docker · Symfony · APIs", demo: "ticket" },
       { name: "Weather App", cat: "iOS", desc: "Native weather app built in Swift.", tech: "Swift · Xcode" },
       { name: "Twitter Clone", cat: "BACKEND", desc: "Full social network in NodeJs.", tech: "Node.js · MongoDB" },
       { name: "Debian Server", cat: "DEVOPS", desc: "Web server from scratch with Debian, VirtualBox, VMware.", tech: "Debian · Shell · VM" },
       { name: "RPG Game", cat: "GAME DEV", desc: "Complete RPG graphical interface in Java.", tech: "Java · Swing" },
-      { name: "Azure Cognitive", cat: "CLOUD · AI", desc: "Facial recognition with Face API. Top 5 Microsoft Camp.", tech: "Azure · API" },
+      { name: "Azure Cognitive", cat: "CLOUD · AI", desc: "Facial recognition with Face API. Top 5 Microsoft Camp.", tech: "Azure · API", demo: "azure" },
       { name: "Android App", cat: "MOBILE", desc: "Android Studio application in Java.", tech: "Java · Android" },
       { name: "CRUD in C", cat: "ALGO", desc: "CRUD model data structure in C.", tech: "C" },
       { name: "Fullstack Java", cat: "FULL STACK", desc: "Backend + frontend Java AndroidStudio app.", tech: "Java · Android" },
@@ -131,6 +134,7 @@ const T = {
       { name: "MySQL Databases", cat: "DATABASE", desc: "Creating databases with MySQL.", tech: "MySQL" },
     ],
     showAll: "Show all projects", showLess: "Show less",
+    seeDetail: "See details", demoLabel: "See the demo", fakeLabel: "Fictional example", anonymize: "Anonymize", showOriginal: "Show original",
     skillsNum: "04", skillsTitle: "Skills", skillsSub: "Technical stack",
     skillCats: [
       { cat: "Languages", items: ["HTML/CSS/JS", "Python", "Node.js", "TypeScript", "Swift", "React Native", "Bootstrap", "Tailwind"] },
@@ -184,7 +188,7 @@ const T = {
       { lang: "العربية (المصرية)", level: "لغة أم", pct: 100 },
       { lang: "الإنجليزية", level: "طلاقة", pct: 90 },
     ],
-    stats: [{ n: "٥+", l: "سنوات" }, { n: "١٤", l: "مشاريع" }, { n: "٣", l: "لغات" }, { n: "٨", l: "زملاء" }],
+    stats: [{ n: "٥+", l: "سنوات" }, { n: "١٥", l: "مشاريع" }, { n: "٣", l: "لغات" }, { n: "٨", l: "زملاء" }],
     expNum: "٠٢", expTitle: "المسيرة", expSub: "الخبرة المهنية",
     experiences: [
       { year: "حالياً", company: "EDF", role: "متدربة ابتكار استراتيجي", sub: "إدارة DIPP · ذكاء اصطناعي وبيانات", location: "لا ديفانس، فرنسا", bullets: ["تصميم وكيل ذكاء اصطناعي استشرافي لدعم التفكير الاستراتيجي للإدارة.", "متابعة رصد الابتكار وإعداد نشرة إخبارية مخصصة مع أفكار للأتمتة.", "تقييم حلول الشركات الناشئة، خاصة في جوانب نظم المعلومات والأمان.", "إطلاق أداة محلية لإخفاء هوية المستندات."] },
@@ -196,14 +200,15 @@ const T = {
     ],
     projNum: "٠٣", projTitle: "المشاريع", projSub: "إنجازات تقنية",
     projects: [
-      { name: "وكيل ذكاء اصطناعي استشرافي", cat: "ذكاء اصطناعي", desc: "وكيل ذكاء اصطناعي لدعم الاستشراف، طُوّر خلال التناوب في EDF.", tech: "AI · Innovation" },
+      { name: "وكيل ذكاء اصطناعي استشرافي", cat: "ذكاء اصطناعي", desc: "وكيل ذكاء اصطناعي لدعم الاستشراف، طُوّر خلال التناوب في EDF.", tech: "AI · Innovation", demo: "agent" },
+      { name: "مُخفي هوية المستندات", cat: "أداة داخلية", desc: "إطلاق أداة محلية تخفي البيانات الشخصية في المستند.", tech: "تطبيق محلي", demo: "redact" },
       { name: "متجر Laravel", cat: "FULL STACK", desc: "موقع تجارة إلكترونية كامل بـ Laravel.", tech: "Laravel · JS · CSS" },
-      { name: "TicketChainer", cat: "هاكاثون", desc: "قيادة فريق من 8. FrontEnd, APIs, Docker, Symfony.", tech: "Docker · Symfony" },
+      { name: "TicketChainer", cat: "هاكاثون", desc: "قيادة فريق من 8. FrontEnd, APIs, Docker, Symfony.", tech: "Docker · Symfony", demo: "ticket" },
       { name: "تطبيق الطقس", cat: "iOS", desc: "تطبيق طقس أصلي بـ Swift.", tech: "Swift · Xcode" },
       { name: "نسخة تويتر", cat: "BACKEND", desc: "شبكة اجتماعية بـ NodeJs.", tech: "Node.js" },
       { name: "خادم Debian", cat: "DEVOPS", desc: "خادم ويب من الصفر.", tech: "Debian · Shell" },
       { name: "لعبة RPG", cat: "ألعاب", desc: "واجهة رسومية RPG بـ Java.", tech: "Java · Swing" },
-      { name: "Azure Cognitive", cat: "سحابة", desc: "التعرف على الوجوه. أفضل 5 معسكر مايكروسوفت.", tech: "Azure · API" },
+      { name: "Azure Cognitive", cat: "سحابة", desc: "التعرف على الوجوه. أفضل 5 معسكر مايكروسوفت.", tech: "Azure · API", demo: "azure" },
       { name: "تطبيق أندرويد", cat: "موبايل", desc: "تطبيق Android Studio بـ Java.", tech: "Java · Android" },
       { name: "CRUD بلغة C", cat: "خوارزميات", desc: "بنية بيانات CRUD بلغة C.", tech: "C" },
       { name: "Fullstack Java", cat: "FULL STACK", desc: "تطبيق Backend + Frontend بـ Java.", tech: "Java · Android" },
@@ -211,6 +216,7 @@ const T = {
       { name: "MySQL", cat: "قواعد بيانات", desc: "إنشاء قواعد بيانات.", tech: "MySQL" },
     ],
     showAll: "عرض الكل", showLess: "عرض أقل",
+    seeDetail: "عرض التفاصيل", demoLabel: "شاهد العرض", fakeLabel: "مثال افتراضي", anonymize: "إخفاء الهوية", showOriginal: "عرض الأصل",
     skillsNum: "٠٤", skillsTitle: "المهارات", skillsSub: "المجموعة التقنية",
     skillCats: [
       { cat: "لغات البرمجة", items: ["HTML/CSS/JS", "Python", "Node.js", "TypeScript", "Swift", "React Native", "Bootstrap", "Tailwind"] },
@@ -245,6 +251,58 @@ const T = {
 };
 
 
+/* ═══════ DEMOS ═══════ */
+const DEMOS = {
+  fr: {
+    agent: ["Veille et sources", "Agent IA", "Synthèse prospective"],
+    ticket: ["Front-end", "API Symfony", "Docker"],
+    azure: ["Photo", "Face API (Azure)", "Visages détectés"],
+    redact: { text: "Le dossier de {Claire Martin} ({claire.martin@exemple.fr}) a été transmis au site de {Lyon}. Contact : {06 12 34 56 78}.", tags: ["PERSONNE", "EMAIL", "LIEU", "TÉLÉPHONE"] },
+  },
+  en: {
+    agent: ["Watch and sources", "AI agent", "Foresight summary"],
+    ticket: ["Front-end", "Symfony API", "Docker"],
+    azure: ["Photo", "Face API (Azure)", "Detected faces"],
+    redact: { text: "The file of {Claire Martin} ({claire.martin@example.com}) was sent to the {Lyon} site. Contact: {06 12 34 56 78}.", tags: ["PERSON", "EMAIL", "PLACE", "PHONE"] },
+  },
+  ar: {
+    agent: ["الرصد والمصادر", "وكيل الذكاء الاصطناعي", "خلاصة استشرافية"],
+    ticket: ["الواجهة الأمامية", "واجهة Symfony", "Docker"],
+    azure: ["صورة", "Face API (Azure)", "الوجوه المكتشفة"],
+    redact: { text: "تم إرسال ملف {كلير مارتن} ({claire.martin@example.com}) إلى موقع {ليون}. للتواصل: {06 12 34 56 78}.", tags: ["الشخص", "البريد", "المكان", "الهاتف"] },
+  },
+};
+
+const Demo = ({ kind, d, t }) => {
+  const [masked, setMasked] = useState(false);
+  if (kind === "redact") {
+    const r = d.redact;
+    const parts = r.text.split(/\{([^}]+)\}/);
+    return (
+      <div className="demo-redact">
+        <p className="demo-text">
+          {parts.map((x, i) => i % 2 === 0 ? x : masked ? <span key={i} className="tag">{r.tags[(i - 1) / 2]}</span> : <mark key={i} className="hit">{x}</mark>)}
+        </p>
+        <div className="demo-bar">
+          <button type="button" className="more" aria-pressed={masked} onClick={() => setMasked(!masked)}>{masked ? t.showOriginal : t.anonymize}</button>
+          <span className="demo-fake">{t.fakeLabel}</span>
+        </div>
+      </div>
+    );
+  }
+  const nodes = d[kind];
+  return (
+    <div className="demo-flow">
+      {nodes.map((label, i) => (
+        <Fragment key={i}>
+          {i > 0 && <span className="flink" style={{ "--d": `${(i - 1) * 0.6}s` }} aria-hidden="true" />}
+          <span className={`fnode ${i === 1 ? "core" : ""}`}>{label}</span>
+        </Fragment>
+      ))}
+    </div>
+  );
+};
+
 /* ═══════ HELPERS ═══════ */
 const KEEP = new Set(["IA", "AI"]);
 const sentence = (s) => {
@@ -266,10 +324,11 @@ const smoothPath = (pts) => {
 const W = 1000, H = 280;
 const LEVELS = [0.8, 0.64, 0.72, 0.46, 0.54, 0.16];
 
-const CareerCurve = ({ experiences, isRtl, on }) => {
+const CareerCurve = ({ experiences, isRtl, on, onSelect, seeDetail }) => {
   const items = [...experiences].reverse(); // du plus ancien au plus récent
   const n = items.length;
   const [active, setActive] = useState(n - 1);
+  const wasActive = useRef(false);
   useEffect(() => { setActive(n - 1); }, [n, isRtl]);
 
   const pts = items.map((e, i) => {
@@ -314,7 +373,8 @@ const CareerCurve = ({ experiences, isRtl, on }) => {
             className={`dot ${i === n - 1 ? "dot-now" : ""} ${on ? "on" : ""} ${i === active ? "act" : ""}`}
             style={{ left: `${p.fx * 100}%`, top: `${p.lvl * 100}%`, transitionDelay: `${p.delay}s` }}
             onFocus={() => setActive(i)}
-            onClick={() => setActive(i)}
+            onPointerDown={() => { wasActive.current = i === active; }}
+            onClick={() => { if (wasActive.current) onSelect(n - 1 - i); else setActive(i); }}
           />
         ))}
       </div>
@@ -323,6 +383,7 @@ const CareerCurve = ({ experiences, isRtl, on }) => {
         <div className="ro-co">{a.e.company}</div>
         <div className="ro-role">{a.e.role}</div>
         <div className="ro-role">{a.e.sub}</div>
+        <button type="button" className="ro-link" onClick={() => onSelect(n - 1 - active)}>{seeDetail}</button>
       </div>
       <div className="curve-labels" aria-hidden="true">
         {pts.map((p, i) => (
@@ -501,7 +562,28 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .xp-body li::before{content:"";position:absolute;inset-inline-start:0;top:.8em;width:10px;height:2px;background:var(--signal)}
 
 /* projects */
-.pj{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.7fr) minmax(0,1fr);gap:32px;padding:26px 16px;margin:0 -16px;border-top:1px solid rgba(255,255,255,0.14);transition:background .25s}
+.pj{margin:0 -16px;border-top:1px solid rgba(255,255,255,0.14);transition:background .25s}
+.pj-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.7fr) minmax(0,1fr);gap:32px;padding:26px 16px;list-style:none}
+.pj-d .pj-row{cursor:pointer}
+.pj-row::-webkit-details-marker{display:none}
+.pj-demo-tag{display:block;margin-top:8px;color:var(--signal);font-family:var(--head);font-weight:600;font-size:14px}
+.pj-demo{padding:4px 16px 36px}
+.demo-flow{display:flex;align-items:center}
+.fnode{flex:0 0 auto;padding:14px 20px;border:1px solid rgba(255,255,255,0.28);border-radius:6px;background:rgba(255,255,255,0.04);font-family:var(--head);font-weight:600;font-size:16px}
+.fnode.core{border-color:var(--signal);color:var(--signal)}
+.flink{position:relative;flex:1 1 40px;min-width:40px;height:2px;background:rgba(255,255,255,0.25)}
+.flink::after{content:"";position:absolute;top:-3px;inset-inline-start:0;width:8px;height:8px;border-radius:50%;background:var(--signal);animation:packet 2s linear infinite;animation-delay:var(--d,0s)}
+@keyframes packet{from{inset-inline-start:0}to{inset-inline-start:calc(100% - 8px)}}
+@keyframes packetV{from{top:0}to{top:calc(100% - 8px)}}
+.demo-text{max-width:60ch;font-size:${isRtl ? 17 : 20}px;line-height:1.8}
+.hit{background:color-mix(in srgb,var(--signal) 30%,transparent);color:inherit;padding:1px 4px;border-radius:3px}
+.tag{display:inline-block;background:var(--signal);color:#0F1E2B;font-family:var(--head);font-weight:600;font-size:13px;padding:1px 9px;border-radius:4px;margin:0 2px}
+.demo-bar{display:flex;align-items:center;gap:20px;margin-top:20px;flex-wrap:wrap}
+.demo-bar .more{margin-top:0}
+.demo-fake{color:var(--dark-muted);font-size:15px}
+.ro-link{margin-top:10px;background:none;border:none;padding:0;color:var(--signal);font-family:var(--head);font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:4px;cursor:pointer;pointer-events:auto}
+.xp.flash{animation:flash 1.8s ease-out}
+@keyframes flash{from{background:color-mix(in srgb,var(--signal) 24%,transparent)}to{background:transparent}}
 .pj:last-child{border-bottom:1px solid rgba(255,255,255,0.14)}
 .pj:hover{background:rgba(255,255,255,0.045)}
 .pj h3{font-family:var(--head);font-weight:600;font-size:21px;letter-spacing:${isRtl ? 0 : "-0.01em"};transition:color .25s}
@@ -564,7 +646,11 @@ footer{padding:32px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   .xp-main{grid-column:1}
   .xp-chev{grid-column:2;grid-row:1 / span 2}
   .xp-body{padding-inline-start:0}
-  .pj{grid-template-columns:1fr;gap:8px}
+  .pj-row{grid-template-columns:1fr;gap:8px}
+  .demo-flow{flex-direction:column;align-items:stretch}
+  .flink{width:2px;height:34px;min-width:0;flex:0 0 34px;margin:0 auto}
+  .flink::after{top:0;inset-inline-start:-3px;animation-name:packetV}
+  .fnode{text-align:center}
   .pj-tech{text-align:start}
   .sk{grid-template-columns:1fr;gap:8px}
   .ex{grid-template-columns:1fr;gap:4px}
@@ -610,6 +696,15 @@ export default function Portfolio() {
 
   const projects = showAllProj ? t.projects : t.projects.slice(0, 6);
   const closeMenu = () => setMenuOpen(false);
+  const goToExp = (idx) => {
+    const el = document.getElementById(`xp-${idx}`);
+    if (!el) return;
+    el.open = true;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.classList.remove("flash");
+    void el.offsetWidth;
+    el.classList.add("flash");
+  };
 
   return (
     <div dir={t.dir}>
@@ -655,7 +750,7 @@ export default function Portfolio() {
                 <a href="#s4" className="link">{t.btnContact}</a>
               </div>
             </div>
-            <CareerCurve experiences={t.experiences} isRtl={isRtl} on={loaded} />
+            <CareerCurve experiences={t.experiences} isRtl={isRtl} on={loaded} onSelect={goToExp} seeDetail={t.seeDetail} />
           </div>
         </section>
 
@@ -703,7 +798,7 @@ export default function Portfolio() {
             </div>
             <div>
               {t.experiences.map((exp, i) => (
-                <details key={`${lang}-${i}`} className="xp" open={i < 2}>
+                <details key={`${lang}-${i}`} id={`xp-${i}`} className="xp" open={i < 2}>
                   <summary className="xp-sum">
                     <span className="xp-year">{exp.year}</span>
                     <span className="xp-main">
@@ -730,13 +825,31 @@ export default function Portfolio() {
               <p className="sub">{t.projSub}</p>
             </div>
             <ul>
-              {projects.map((p, i) => (
-                <li key={`${lang}-${p.name}`} className="pj">
-                  <div><h3>{p.name}</h3><span className="pj-cat">{sentence(p.cat)}</span></div>
-                  <p className="pj-desc">{p.desc}</p>
-                  <p className="pj-tech">{p.tech}</p>
-                </li>
-              ))}
+              {projects.map((p) => {
+                const cols = (
+                  <>
+                    <div>
+                      <h3>{p.name}</h3>
+                      <span className="pj-cat">{sentence(p.cat)}</span>
+                      {p.demo && <span className="pj-demo-tag">{t.demoLabel}</span>}
+                    </div>
+                    <p className="pj-desc">{p.desc}</p>
+                    <p className="pj-tech">{p.tech}</p>
+                  </>
+                );
+                return (
+                  <li key={`${lang}-${p.name}`} className="pj">
+                    {p.demo ? (
+                      <details className="pj-d">
+                        <summary className="pj-row">{cols}</summary>
+                        <div className="pj-demo"><Demo kind={p.demo} d={DEMOS[lang]} t={t} /></div>
+                      </details>
+                    ) : (
+                      <div className="pj-row">{cols}</div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
             {t.projects.length > 6 && (
               <button className="more" onClick={() => setShowAllProj(!showAllProj)} aria-expanded={showAllProj}>{showAllProj ? t.showLess : t.showAll}</button>
