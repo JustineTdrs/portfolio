@@ -269,6 +269,9 @@ const LEVELS = [0.8, 0.64, 0.72, 0.46, 0.54, 0.16];
 const CareerCurve = ({ experiences, isRtl, on }) => {
   const items = [...experiences].reverse(); // du plus ancien au plus récent
   const n = items.length;
+  const [active, setActive] = useState(n - 1);
+  useEffect(() => { setActive(n - 1); }, [n, isRtl]);
+
   const pts = items.map((e, i) => {
     const f = 0.07 + 0.86 * (i / (n - 1));
     const fx = isRtl ? 1 - f : f;
@@ -277,29 +280,53 @@ const CareerCurve = ({ experiences, isRtl, on }) => {
   });
   const line = smoothPath(pts);
   const area = `${line} L ${pts[n - 1].x} ${H} L ${pts[0].x} ${H} Z`;
+  const a = pts[active] || pts[n - 1];
+
+  const onMove = (ev) => {
+    const r = ev.currentTarget.getBoundingClientRect();
+    const f = (ev.clientX - r.left) / r.width;
+    let best = 0, d = 9;
+    pts.forEach((p, i) => { const dd = Math.abs(p.fx - f); if (dd < d) { d = dd; best = i; } });
+    setActive(best);
+  };
 
   return (
-    <div className="curve" aria-hidden="true">
-      <div className="curve-plot">
-        <svg viewBox={`0 0 ${W} ${H}`} focusable="false">
+    <div className="curve">
+      <div className="curve-plot" onPointerMove={onMove} onPointerDown={onMove}>
+        <svg viewBox={`0 0 ${W} ${H}`} focusable="false" aria-hidden="true">
           <defs>
             <linearGradient id="curveFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" style={{ stopColor: "var(--signal)", stopOpacity: 0.22 }} />
+              <stop offset="0" style={{ stopColor: "var(--signal)", stopOpacity: 0.28 }} />
               <stop offset="1" style={{ stopColor: "var(--signal)", stopOpacity: 0 }} />
             </linearGradient>
           </defs>
-          {[0.25, 0.5, 0.75].map((g) => <line key={g} x1="0" x2={W} y1={g * H} y2={g * H} stroke="var(--line)" strokeWidth="1" />)}
-          <line x1="0" x2={W} y1={H} y2={H} stroke="var(--ink)" strokeOpacity="0.35" strokeWidth="1" />
+          {[0.25, 0.5, 0.75].map((g) => <line key={g} x1="0" x2={W} y1={g * H} y2={g * H} stroke="rgba(255,255,255,0.12)" strokeWidth="1" />)}
+          <line x1="0" x2={W} y1={H} y2={H} stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
           <path d={area} fill="url(#curveFill)" className={`curve-area ${on ? "on" : ""}`} />
           <path d={line} pathLength="1" fill="none" stroke="var(--signal)" strokeWidth="3" strokeLinecap="round" className={`curve-line ${on ? "on" : ""}`} />
+          <line x1={a.x} x2={a.x} y1={a.y} y2={H} stroke="var(--signal)" strokeOpacity="0.55" strokeWidth="1.5" strokeDasharray="4 5" className={`cursor-line ${on ? "on" : ""}`} />
         </svg>
         {pts.map((p, i) => (
-          <span key={i} className={`dot ${i === n - 1 ? "dot-now" : ""} ${on ? "on" : ""}`} style={{ left: `${p.fx * 100}%`, top: `${p.lvl * 100}%`, transitionDelay: `${p.delay}s` }} />
+          <button
+            key={i}
+            type="button"
+            aria-label={`${p.e.company}, ${p.e.year}`}
+            className={`dot ${i === n - 1 ? "dot-now" : ""} ${on ? "on" : ""} ${i === active ? "act" : ""}`}
+            style={{ left: `${p.fx * 100}%`, top: `${p.lvl * 100}%`, transitionDelay: `${p.delay}s` }}
+            onFocus={() => setActive(i)}
+            onClick={() => setActive(i)}
+          />
         ))}
       </div>
-      <div className="curve-labels">
+      <div className={`readout ${on ? "on" : ""}`} aria-live="polite">
+        <div className="ro-year">{a.e.year}</div>
+        <div className="ro-co">{a.e.company}</div>
+        <div className="ro-role">{a.e.role}</div>
+        <div className="ro-role">{a.e.sub}</div>
+      </div>
+      <div className="curve-labels" aria-hidden="true">
         {pts.map((p, i) => (
-          <div key={i} className={`curve-label ${on ? "on" : ""}`} style={{ left: `${p.fx * 100}%`, transitionDelay: `${p.delay}s` }}>
+          <div key={i} className={`curve-label ${on ? "on" : ""} ${i === active ? "act" : ""}`} style={{ left: `${p.fx * 100}%`, transitionDelay: `${p.delay}s` }}>
             <div className="cl-year">{p.e.year}</div>
             <div className="cl-name">{p.e.company}</div>
           </div>
@@ -391,6 +418,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .brand{white-space:nowrap;font-family:var(--head);font-weight:700;font-size:17px;text-decoration:none;letter-spacing:${isRtl ? 0 : "-0.01em"}}
 .nav-right{display:flex;align-items:center;gap:28px}
 .nav-links{display:flex;gap:26px}
+.nav:not(.scrolled){color:var(--dark-fg)}
+.nav:not(.scrolled) .nav-links a,.nav:not(.scrolled) .lang button,.nav:not(.scrolled) .icon-btn{color:var(--dark-muted)}
+.nav:not(.scrolled) .nav-links a:hover,.nav:not(.scrolled) .lang button[aria-pressed="true"],.nav:not(.scrolled) .icon-btn:hover,.nav:not(.scrolled) .burger{color:var(--dark-fg)}
+.nav:not(.scrolled) .lang button[aria-pressed="true"]{border-color:rgba(255,255,255,0.3)}
 .nav-links a{font-family:var(--head);font-size:15px;text-decoration:none;color:var(--muted);transition:color .2s}
 .nav-links a:hover{color:var(--ink)}
 .lang{display:flex;gap:2px}
@@ -403,32 +434,40 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .menu a{font-family:var(--head);font-size:28px;font-weight:600;text-decoration:none}
 
 /* hero */
-.hero{padding:112px 0 56px}
+.hero{padding:112px 0 64px;background-color:var(--dark);color:var(--dark-fg);background-image:radial-gradient(rgba(255,255,255,0.09) 1px,transparent 1px);background-size:28px 28px}
 .hero h1{font-family:var(--head);font-weight:${isRtl ? 700 : 600};font-size:clamp(40px,6vw,88px);line-height:${isRtl ? 1.25 : 1.02};letter-spacing:${isRtl ? 0 : "-0.035em"};max-width:11em}
 .hero-row{display:grid;grid-template-columns:1fr auto;gap:48px;align-items:end;margin-top:36px}
 .hero-sub{font-family:var(--head);font-weight:600;font-size:19px}
-.hero-desc{color:var(--muted);max-width:52ch;margin-top:8px;font-size:${isRtl ? 17 : 20}px}
+.hero-desc{color:var(--dark-muted);max-width:52ch;margin-top:8px;font-size:${isRtl ? 17 : 20}px}
 .hero-cta{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
-.btn{font-family:var(--head);font-weight:600;font-size:15px;text-decoration:none;background:var(--ink);color:var(--bg);padding:14px 26px;border-radius:4px;transition:background .2s,color .2s}
-.btn:hover{background:var(--accent);color:var(--on-accent)}
+.btn{font-family:var(--head);font-weight:600;font-size:15px;text-decoration:none;background:var(--signal);color:#0F1E2B;padding:14px 26px;border-radius:4px;transition:background .2s,color .2s}
+.btn:hover{background:var(--dark-fg);color:var(--dark)}
 .link{font-family:var(--head);font-weight:600;font-size:15px;text-decoration:underline;text-decoration-color:var(--signal);text-decoration-thickness:2px;text-underline-offset:6px}
 
 /* curve */
-.curve{margin-top:56px}
-.curve-plot{position:relative;aspect-ratio:${W}/${H}}
+.curve{margin-top:56px;position:relative}
+.curve-plot{position:relative;aspect-ratio:${W}/${H};touch-action:pan-y;cursor:crosshair}
 .curve-plot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.curve-line{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.3s cubic-bezier(.65,0,.35,1) .1s}
+.curve-line{filter:drop-shadow(0 0 7px var(--signal));stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.3s cubic-bezier(.65,0,.35,1) .1s}
 .curve-line.on{stroke-dashoffset:0}
 .curve-area{opacity:0;transition:opacity 1.2s ease 1.6s}
 .curve-area.on{opacity:1}
-.dot{position:absolute;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-radius:50%;background:var(--bg);border:2px solid var(--signal);opacity:0;transform:scale(.4);transition:opacity .4s,transform .4s}
+.dot{position:absolute;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-radius:50%;background:var(--dark);border:2px solid var(--signal);padding:0;cursor:pointer;opacity:0;transform:scale(.4);transition:opacity .4s,transform .25s}
 .dot.on{opacity:1;transform:none}
+.dot.on.act{transform:scale(1.5)}
+.cursor-line{transition:opacity .3s;opacity:0}.cursor-line.on{opacity:1}
+.readout{position:absolute;inset-inline-start:0;top:0;z-index:2;max-width:300px;padding:14px 18px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);border-radius:6px;opacity:0;transition:opacity .6s ease 1.2s;pointer-events:none}
+.readout.on{opacity:1}
+.ro-year{font-size:14px;color:var(--dark-muted);font-variant-numeric:tabular-nums}
+.ro-co{font-family:var(--head);font-weight:600;font-size:22px;letter-spacing:${isRtl ? 0 : "-0.01em"}}
+.ro-role{font-size:15px;color:var(--dark-muted);line-height:1.45}
 .dot-now{background:var(--signal)}
 .curve-labels{position:relative;height:76px;margin-top:16px}
 .curve-label{position:absolute;top:0;width:15%;transform:translateX(-50%);text-align:center;opacity:0;transition:opacity .5s}
 .curve-label.on{opacity:1}
-.cl-year{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.cl-name{font-family:var(--head);font-size:14px;font-weight:600;line-height:1.3}
+.cl-year{font-size:13px;color:var(--dark-muted);font-variant-numeric:tabular-nums}
+.cl-name{font-family:var(--head);font-size:14px;font-weight:600;line-height:1.3;color:var(--dark-fg);transition:color .25s}
+.curve-label.act .cl-name{color:var(--signal)}
 
 /* about */
 .about{display:grid;grid-template-columns:1.5fr 1fr;gap:88px}
@@ -532,7 +571,7 @@ footer{padding:32px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   .hero{padding-top:100px}
   .hero-row{grid-template-columns:1fr;gap:28px}
 }
-@media(max-width:760px){.curve-labels{display:none}.curve{margin-top:48px}}
+@media(max-width:760px){.curve-labels{display:none}.curve{margin-top:48px}.readout{position:static;max-width:none;margin-top:18px}}
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .curve-line{stroke-dashoffset:0}.curve-area,.dot,.curve-label{opacity:1;transform:none}.curve-label{transform:translateX(-50%)}
@@ -577,7 +616,7 @@ export default function Portfolio() {
       <style>{css(dark ? DARK : LIGHT, isRtl)}</style>
 
       {/* ═══ NAV ═══ */}
-      <header className={`nav ${scrolled ? "scrolled" : ""}`}>
+      <header className={`nav ${scrolled || menuOpen ? "scrolled" : ""}`}>
         <div className="wrap nav-in">
           <a href="#top" className="brand">Justine Tadros</a>
           <div className="nav-right">
