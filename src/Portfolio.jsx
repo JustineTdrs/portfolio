@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect, useRef } from "react";
 const T = {
   fr: {
     dir: "ltr",
-    nav: ["À propos", "Parcours", "Projets", "Compétences", "Contact"],
+    nav: ["À propos", "Parcours", "Projets", "Services", "Compétences", "Contact"],
     heroSub: "Alternante Innovation & IA · EDF",
     heroTitle: ["L'art de la", "donnée", "rencontre", "l'innovation"],
     heroDesc: "Étudiante en Master IA et Data, en alternance au sein du département innovation stratégique d'EDF, je conçois des solutions digitales et des agents IA à l'intersection de la donnée, de l'énergie et de l'industrie.",
@@ -69,6 +69,18 @@ const T = {
       { title: "Cheffe de Projet, TicketChainer", year: "2019", desc: "Direction d'une équipe de 8 personnes, supervision de l'intégration FrontEnd, gestion APIs et adaptation templates. Conseils sur toutes les phases du projet." },
       { title: "Top 5 Camp Microsoft", year: "2020", desc: "Participation au Camp Microsoft : Service Cognitif, acquisition de connaissances sur l'API Faces de la suite Cognitive Services." },
     ],
+    servicesTitle: "Services", servicesSub: "Missions freelance",
+    servicesDesc: "En parallèle de mon alternance, je réalise des missions web en freelance, de la landing page au site d'entreprise sécurisé.",
+    services: [
+      { name: "Intégration de maquettes", desc: "Figma vers HTML, CSS et React, fidèle à la maquette et responsive sur mobile, tablette et ordinateur." },
+      { name: "Composants React", desc: "Composants réutilisables, maintenables et accessibles, prêts pour la production." },
+      { name: "Sites vitrines et espaces confidentiels", desc: "Sites one page et dossiers en ligne avec accès par code envoyé par e-mail, pour partager des documents sensibles." },
+      { name: "Débogage et optimisation", desc: "Reprise de code existant, correctifs, performances et accessibilité." },
+      { name: "Data et IA", desc: "Tableaux de bord Power BI, automatisations et prototypes d'agents IA." },
+    ],
+    servicesAvail: "Disponible immédiatement, à distance, pour des missions courtes (2 à 5 jours) ou des projets plus longs.",
+    servicesBtn: "Me contacter pour un devis", servicesMalt: "Voir mon profil Malt",
+    servicesMail: "mailto:tadrosjustine21@gmail.com?subject=Demande%20de%20devis",
     contactNum: "06", contactTitle: "Collaborons", contactTitle2: "ensemble",
     contactDesc: "Que ce soit pour du développement, de la transformation digitale ou de l'innovation, je suis à l'écoute.",
     contactLabels: { email: "Email", linkedin: "LinkedIn", github: "GitHub", phone: "Téléphone" },
@@ -86,7 +98,7 @@ const T = {
   },
   en: {
     dir: "ltr",
-    nav: ["About", "Experience", "Projects", "Skills", "Contact"],
+    nav: ["About", "Experience", "Projects", "Services", "Skills", "Contact"],
     heroSub: "Strategic Innovation Work-Study · EDF",
     heroTitle: ["Where", "data", "meets", "innovation"],
     heroDesc: "AI & Data Master's student and work-study at EDF's strategic innovation department, I design digital solutions and AI agents at the intersection of data, energy and industry.",
@@ -151,6 +163,18 @@ const T = {
       { title: "Project Leader, TicketChainer", year: "2019", desc: "Led a team of 8, overseeing FrontEnd integration, API management, and template adaptation across all project phases." },
       { title: "Top 5 Microsoft Camp", year: "2020", desc: "Participated in Microsoft Camp: Cognitive Service, gaining insights into the Face API from Microsoft's Cognitive Services suite." },
     ],
+    servicesTitle: "Services", servicesSub: "Freelance work",
+    servicesDesc: "Alongside my work-study, I take on freelance web projects, from landing pages to secure company sites.",
+    services: [
+      { name: "Design-to-code integration", desc: "Figma to HTML, CSS and React, faithful to the design and responsive on mobile, tablet and desktop." },
+      { name: "React components", desc: "Reusable, maintainable and accessible components, production ready." },
+      { name: "Showcase sites and private spaces", desc: "One-page sites and online folders with access by e-mailed code, to share sensitive documents." },
+      { name: "Debugging and optimisation", desc: "Taking over existing code, fixes, performance and accessibility." },
+      { name: "Data and AI", desc: "Power BI dashboards, automations and AI agent prototypes." },
+    ],
+    servicesAvail: "Available immediately, remote, for short missions (2 to 5 days) or longer projects.",
+    servicesBtn: "Contact me for a quote", servicesMalt: "View my Malt profile",
+    servicesMail: "mailto:tadrosjustine21@gmail.com?subject=Quote%20request",
     contactNum: "06", contactTitle: "Let's work", contactTitle2: "together",
     contactDesc: "Whether it's development, digital transformation, or innovation, I'm all ears.",
     contactLabels: { email: "Email", linkedin: "LinkedIn", github: "GitHub", phone: "Phone" },
@@ -168,7 +192,7 @@ const T = {
   },
   ar: {
     dir: "rtl",
-    nav: ["نبذة عني", "المسيرة", "المشاريع", "المهارات", "اتصل بي"],
+    nav: ["نبذة عني", "المسيرة", "المشاريع", "الخدمات", "المهارات", "اتصل بي"],
     heroSub: "ابتكار استراتيجي وذكاء اصطناعي · EDF",
     heroTitle: ["حيث تلتقي", "البيانات", "بعالم", "الابتكار"],
     heroDesc: "طالبة ماجستير في الذكاء الاصطناعي والبيانات ومتدربة في قسم الابتكار الاستراتيجي في EDF، أصمم حلولاً رقمية ووكلاء ذكاء اصطناعي عند تقاطع البيانات والطاقة والصناعة.",
@@ -233,6 +257,18 @@ const T = {
       { title: "قائدة مشروع, TicketChainer", year: "٢٠١٩", desc: "قيادة فريق من 8 أفراد، إدارة دمج الواجهة الأمامية والواجهات البرمجية عبر جميع مراحل المشروع." },
       { title: "أفضل 5 معسكر مايكروسوفت", year: "٢٠٢٠", desc: "المشاركة في معسكر مايكروسوفت: الخدمة المعرفية وواجهة التعرف على الوجوه." },
     ],
+    servicesTitle: "الخدمات", servicesSub: "أعمال حرة",
+    servicesDesc: "بالتوازي مع تدريبي، أنفذ مشاريع ويب حرة، من صفحات الهبوط إلى مواقع الشركات المؤمّنة.",
+    services: [
+      { name: "تحويل التصاميم إلى كود", desc: "من Figma إلى HTML وCSS وReact، مطابق للتصميم ومتجاوب على الجوال والتابلت والحاسوب." },
+      { name: "مكوّنات React", desc: "مكوّنات قابلة لإعادة الاستخدام وسهلة الصيانة والوصول، جاهزة للإنتاج." },
+      { name: "مواقع تعريفية ومساحات خاصة", desc: "مواقع من صفحة واحدة وملفات على الإنترنت بدخول برمز يُرسل بالبريد الإلكتروني، لمشاركة المستندات الحساسة." },
+      { name: "تصحيح الأخطاء والتحسين", desc: "تولي كود موجود، إصلاحات، أداء وسهولة وصول." },
+      { name: "البيانات والذكاء الاصطناعي", desc: "لوحات Power BI، أتمتة ونماذج أولية لوكلاء الذكاء الاصطناعي." },
+    ],
+    servicesAvail: "متاحة فوراً عن بُعد لمهام قصيرة (٢ إلى ٥ أيام) أو مشاريع أطول.",
+    servicesBtn: "تواصل معي لعرض سعر", servicesMalt: "عرض ملفي على Malt",
+    servicesMail: "mailto:tadrosjustine21@gmail.com?subject=%D8%B7%D9%84%D8%A8%20%D8%B9%D8%B1%D8%B6%20%D8%B3%D8%B9%D8%B1",
     contactNum: "٠٦", contactTitle: "لنعمل", contactTitle2: "معاً",
     contactDesc: "سواء كان تطويراً أو تحولاً رقمياً أو تعاوناً في الابتكار, أنا مستعدة.",
     contactLabels: { email: "البريد", linkedin: "لينكد إن", github: "غيت هاب", phone: "الهاتف" },
@@ -610,6 +646,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .ex p{color:var(--muted);max-width:64ch}
 
 /* contact */
+.sv-desc{color:var(--muted);max-width:60ch;margin-bottom:32px}
+.sv-avail{color:var(--muted);margin-top:28px;max-width:60ch}
+.sv-cta{display:flex;flex-wrap:wrap;align-items:center;gap:28px;margin-top:28px}
 .ct-desc{color:var(--muted);max-width:50ch;margin-top:18px}
 .ct{margin-top:56px}
 .ct a{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:22px 0;border-top:1px solid var(--line);text-decoration:none;transition:padding .25s,color .25s}
@@ -665,6 +704,7 @@ footer{padding:32px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 `;
 
 /* ═══════ MAIN PORTFOLIO ═══════ */
+const NAV_IDS = ["s0", "s1", "s2", "s5", "s3", "s4"];
 const CONTACTS = (t) => [
   { label: t.contactLabels.email, value: "tadrosjustine21@gmail.com", href: "mailto:tadrosjustine21@gmail.com" },
   { label: t.contactLabels.linkedin, value: "linkedin.com/in/justinetadros", href: "https://www.linkedin.com/in/justinetadros/" },
@@ -715,7 +755,7 @@ export default function Portfolio() {
         <div className="wrap nav-in">
           <a href="#top" className="brand">Justine Tadros</a>
           <div className="nav-right">
-            <nav className="nav-links" aria-label="Navigation">{t.nav.map((s, i) => <a key={i} href={`#s${i}`}>{s}</a>)}</nav>
+            <nav className="nav-links" aria-label="Navigation">{t.nav.map((s, i) => <a key={i} href={`#${NAV_IDS[i]}`}>{s}</a>)}</nav>
             <div className="lang">
               {[["fr", "FR"], ["en", "EN"], ["ar", "AR"]].map(([k, l]) => <button key={k} aria-pressed={lang === k} onClick={() => setLang(k)}>{l}</button>)}
             </div>
@@ -731,7 +771,7 @@ export default function Portfolio() {
 
       {menuOpen && (
         <div className="menu">
-          {t.nav.map((s, i) => <a key={i} href={`#s${i}`} onClick={closeMenu}>{s}</a>)}
+          {t.nav.map((s, i) => <a key={i} href={`#${NAV_IDS[i]}`} onClick={closeMenu}>{s}</a>)}
         </div>
       )}
 
@@ -854,6 +894,27 @@ export default function Portfolio() {
             {t.projects.length > 6 && (
               <button className="more" onClick={() => setShowAllProj(!showAllProj)} aria-expanded={showAllProj}>{showAllProj ? t.showLess : t.showAll}</button>
             )}
+          </div>
+        </section>
+
+        {/* ═══ SERVICES ═══ */}
+        <section id="s5" className="sec">
+          <div className="wrap">
+            <div className="sec-head">
+              <h2 className="h2">{t.servicesTitle}</h2>
+              <p className="sub">{t.servicesSub}</p>
+            </div>
+            <p className="sv-desc">{t.servicesDesc}</p>
+            <div>
+              {t.services.map((v, i) => (
+                <div key={i} className="sk"><h3>{v.name}</h3><p>{v.desc}</p></div>
+              ))}
+            </div>
+            <p className="sv-avail">{t.servicesAvail}</p>
+            <div className="sv-cta">
+              <a href={t.servicesMail} className="btn">{t.servicesBtn}</a>
+              <a href="https://www.malt.fr/profile/tadrosjustine" target="_blank" rel="noreferrer" className="link">{t.servicesMalt}</a>
+            </div>
           </div>
         </section>
 
